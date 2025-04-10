@@ -1,0 +1,3 @@
+# MCP Server for Phaser Editor
+
+Coming soon...
