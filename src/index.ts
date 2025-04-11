@@ -25,10 +25,13 @@ defineTool("scene-get-scene-dimension", "Get the dimensions of the current scene
 
 defineTool("scene-get-scene-data", "Get all objects in the current scene, including their properties.", {});
 
+defineTool("scene-move-object-in-render-list", "Sort objects in the current scene.", {
+    objectIds: z.array(z.string()).describe("The `id`s of the objects to sort."),
+    move: z.enum(["Up", "Down", "Top", "Bottom"]).describe("Move the objects upm down, top, or bottom in the render list."),
+});
+
 // TODO: maybe we don't need this since we provide the tool to get all the objects in the scene
 // defineTool("scene-get-object-properties", "Get properties of the given object.", {});
-
-// game object tools
 
 defineTool("scene-add-image", "Add image to the current scene", {
     ...GameObjectComponent(),
