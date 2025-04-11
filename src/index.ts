@@ -17,7 +17,19 @@ const server = new McpServer({
 
 defineTool("project-get-available-textures", "Get all available textures in the project.", {});
 
+defineTool("scene-get-scene-dimension", "Get the dimensions of the current scene.", {});
+
+defineTool("scene-get-scene-data", "Get all objects in the current scene, including their properties.", {});
+
+// defineTool("scene-get-object-properties", "Get properties of the given object.", {});
+
 defineTool("scene-add-image", "Add image to the current scene", {
+    ...GameObjectComponent(),
+    ...TransformComponent(),
+    ...TextureComponent(),
+});
+
+defineTool("scene-update-image", "Set properties of an image in the current scene", {
     ...GameObjectComponent(),
     ...TransformComponent(),
     ...TextureComponent(),
