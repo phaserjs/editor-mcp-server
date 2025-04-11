@@ -2,7 +2,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z, ZodRawShape } from "zod";
 import { sendRequestToPhaserEditor } from "./bridge.js";
-import { GameObjectComponent, TextureComponent, TransformComponent } from "./components.js";
+import { GameObjectComponent, TextComponent, TextureComponent, TransformComponent } from "./components.js";
 
 // Create server instance
 const server = new McpServer({
@@ -30,20 +30,36 @@ defineTool("scene-move-object-in-render-list", "Sort objects in the current scen
     move: z.enum(["Up", "Down", "Top", "Bottom"]).describe("Move the objects upm down, top, or bottom in the render list."),
 });
 
+defineTool("scene-delete-objects", "Delete the given objects from the scene.", {
+    objectIds: z.string().describe("The `id`s of the objects to delete.")
+});
+
 // TODO: maybe we don't need this since we provide the tool to get all the objects in the scene
 // defineTool("scene-get-object-properties", "Get properties of the given object.", {});
 
-defineTool("scene-add-image", "Add image to the current scene", {
+// Game Objects
+
+// Image
+
+defineTool("scene-add-image", "Add an Image game object to the scene.", {
     ...GameObjectComponent(),
     ...TransformComponent(),
     ...TextureComponent(),
 });
 
-defineTool("scene-update-image", "Set properties of an image in the current scene", {
+defineTool("scene-update-image", "Set properties of the given Image game object in the scene.", {
     id: z.string().describe("The `id` of the image to update."),
     ...GameObjectComponent(),
     ...TransformComponent(),
     ...TextureComponent(),
+});
+
+// Text
+
+defineTool("scene-add-text", "Add a Text game object to the scene", {
+    ...GameObjectComponent(),
+    ...TransformComponent(),
+    ...TextComponent(),
 });
 
 function defineTool(name: string, description: string, args: ZodRawShape) {
