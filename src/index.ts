@@ -17,11 +17,18 @@ const server = new McpServer({
 
 defineTool("project-get-available-textures", "Get all available textures in the project.", {});
 
+defineTool("project-get-texture-binary", "Get the binary data of a texture.", {
+    ...TextureComponent()
+});
+
 defineTool("scene-get-scene-dimension", "Get the dimensions of the current scene.", {});
 
 defineTool("scene-get-scene-data", "Get all objects in the current scene, including their properties.", {});
 
+// TODO: maybe we don't need this since we provide the tool to get all the objects in the scene
 // defineTool("scene-get-object-properties", "Get properties of the given object.", {});
+
+// game object tools
 
 defineTool("scene-add-image", "Add image to the current scene", {
     ...GameObjectComponent(),
@@ -30,6 +37,7 @@ defineTool("scene-add-image", "Add image to the current scene", {
 });
 
 defineTool("scene-update-image", "Set properties of an image in the current scene", {
+    id: z.string().describe("The `id` of the image to update."),
     ...GameObjectComponent(),
     ...TransformComponent(),
     ...TextureComponent(),

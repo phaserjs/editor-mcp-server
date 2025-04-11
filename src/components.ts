@@ -21,6 +21,7 @@ export function TransformComponent() {
 }
 
 export function TextureComponent() {
+    
     return {
         textureKey: z.string().optional().describe("The key of the texture."),
         textureFrame: z.string().optional().describe("The frame of the texture, in case it is an atlas, sprite-sheet, or other complex texture."),
