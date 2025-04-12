@@ -62,6 +62,13 @@ defineTool("scene-add-text", "Add a Text game object to the scene", {
     ...TextComponent(),
 });
 
+defineTool("scene-update-text", "Set properties of the given Text game object in the scene.", {
+    id: z.string().describe("The `id` of the Text game object to update."),
+    ...GameObjectComponent(),
+    ...TransformComponent(),
+    ...TextComponent(),
+});
+
 function defineTool(name: string, description: string, args: ZodRawShape) {
 
     return server.tool(name, description, args, async args => {
