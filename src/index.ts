@@ -50,6 +50,10 @@ defineTool("scene-pack-objects-in-container", "Create a container to group the g
     objectIds: z.array(z.string()).describe("The `id`s of the objects to move."),
 });
 
+defineTool("project-get-texture-content-bounding-box", "Get the bounding box of the content of the given texture. Many textures has transparent padding but we need the exact offset and size of the content/object of the texture to place them in the right positions in the scene. Like when placing different objects one next to the other, with touching edges.", {
+    ...TextureComponent()
+});
+
 // Game Objects
 
 defineGameObjectTool("image", {
