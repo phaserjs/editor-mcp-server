@@ -3,19 +3,15 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import { ZodRawShape } from "zod";
 import { sendRequestToPhaserEditor } from "./bridge.js";
 
-export let mcpServer: McpServer;
+export let mcpServer = new McpServer({
+    name: "phaser-editor-mcp",
+    version: "1.0.0",
+    capabilities: {
+        tools: {},
+    },
+});
 
 export async function startServer() {
-
-    mcpServer = new McpServer({
-        name: "phaser-editor-mcp",
-        version: "1.0.0",
-        capabilities: {
-            prompts: {},
-            resources: {},
-            tools: {},
-        },
-    });
 
     const transport = new StdioServerTransport();
 
