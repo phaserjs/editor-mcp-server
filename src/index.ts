@@ -15,11 +15,25 @@ const server = new McpServer({
     },
 });
 
-defineTool("project-get-available-textures", "Get all available textures in the project.", {});
+// Assets
 
-defineTool("project-get-texture-binary", "Get the binary data of a texture.", {
+defineTool("assets-get-available-textures", "Get all available textures in the project.", {});
+
+defineTool("assets-get-texture-binary", "Get the binary data of a texture.", {
     ...TextureComponent()
 });
+
+defineTool("assets-get-available-bitmapfonts", "Get all available bitmap fonts in the project.", {});
+
+defineTool("assets-get-bitmapfont-image", "Get the PNG image/texture of the given bitmap font.", {
+    key: z.string().describe("The key of the bitmap font."),
+})
+
+defineTool("assets-get-texture-content-bounding-box", "Get the bounding box of the content of the given texture. Many textures has transparent padding but we need the exact offset and size of the content/object of the texture to place them in the right positions in the scene. Like when placing different objects one next to the other, with touching edges.", {
+    ...TextureComponent()
+});
+
+// Scene
 
 defineTool("scene-get-scene-dimension", "Get the dimensions of the current scene.", {});
 
@@ -48,10 +62,6 @@ defineTool("scene-move-objects-to-parent", "Move the given objects to the given 
 
 defineTool("scene-pack-objects-in-container", "Create a container to group the given objects. The container and objects are positioned so the container size is minimal.", {
     objectIds: z.array(z.string()).describe("The `id`s of the objects to move."),
-});
-
-defineTool("project-get-texture-content-bounding-box", "Get the bounding box of the content of the given texture. Many textures has transparent padding but we need the exact offset and size of the content/object of the texture to place them in the right positions in the scene. Like when placing different objects one next to the other, with touching edges.", {
-    ...TextureComponent()
 });
 
 // Game Objects
