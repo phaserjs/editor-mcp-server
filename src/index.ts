@@ -2,7 +2,7 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z, ZodRawShape } from "zod";
 import { sendRequestToPhaserEditor } from "./bridge.js";
-import { GameObjectComponent, TextComponent, TextureComponent, TransformComponent } from "./components.js";
+import { BitmapTextComponent, GameObjectComponent, TextComponent, TextureComponent, TransformComponent } from "./components.js";
 
 // Create server instance
 const server = new McpServer({
@@ -86,6 +86,12 @@ defineGameObjectTool("layer", {
 defineGameObjectTool("container", {
     ...GameObjectComponent(),
     ...TransformComponent(),
+});
+
+defineGameObjectTool("bitmaptext", {
+    ...GameObjectComponent(),
+    ...TransformComponent(),
+    ...BitmapTextComponent(),
 });
 
 function defineGameObjectTool(name: string, args: ZodRawShape) {
