@@ -2,7 +2,7 @@
 
 import { z, ZodRawShape } from "zod";
 import { defineTool } from "./utils.js";
-import { BitmapTextComponent, GameObjectComponent, TextComponent, TextureComponent, TransformComponent } from "./components.js";
+import { BitmapTextComponent, GameObjectComponent, SpriteComponent, TextComponent, TextureComponent, TransformComponent } from "./components.js";
 
 export function defineSceneTools() {
 
@@ -41,6 +41,13 @@ export function defineSceneTools() {
         ...GameObjectComponent(),
         ...TransformComponent(),
         ...TextureComponent(),
+    });
+
+    defineGameObjectTool("sprite", {
+        ...GameObjectComponent(),
+        ...TransformComponent(),
+        ...TextureComponent(),
+        ...SpriteComponent()
     });
 
     defineGameObjectTool("text", {

@@ -71,3 +71,18 @@ export function TextureComponent() {
         }).optional().describe("The texture of the game object."),
     };
 }
+
+enum AnimationPlayMethod {
+    NONE = 0,
+    PLAY = 1,
+    PLAY_REVERSE = 2
+}
+
+export function SpriteComponent() {
+
+    return {
+        animationKey: z.string().optional().describe("The key of the animation to play."),
+        animationPlayMethod: z.nativeEnum(AnimationPlayMethod).optional().describe("The method to play the animation. 0 - none, 1 - play, 2 - play reverse."),
+        animationPreview: z.boolean().default(false).optional().describe("If true, the animation will be previewed in realtime in the scene editor."),
+    }
+}
