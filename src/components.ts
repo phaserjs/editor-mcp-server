@@ -86,3 +86,15 @@ export function SpriteComponent() {
         animationPreview: z.boolean().default(false).optional().describe("If true, the animation will be previewed in realtime in the scene editor."),
     }
 }
+
+export function TileSpriteComponent() {
+
+    return {
+        width: z.number().optional().describe("The width of the tile sprite."),
+        height: z.number().optional().describe("The height of the tile sprite."),
+        tilePositionX: z.number().optional().describe("The tile position X of the tile sprite."),
+        tilePositionY: z.number().optional().describe("The tile position Y of the tile sprite."),
+        tileScaleX: z.number().optional().describe("The tile scale X of the tile sprite."),
+        tileScaleY: z.number().optional().describe("The tile scale Y of the tile sprite."),
+    }
+}
