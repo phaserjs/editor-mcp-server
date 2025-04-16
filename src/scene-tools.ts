@@ -2,7 +2,7 @@
 
 import { z, ZodRawShape } from "zod";
 import { defineTool } from "./utils.js";
-import { BitmapTextComponent, GameObjectComponent, SpriteComponent, TextComponent, TextureComponent, TileSpriteComponent, TransformComponent } from "./components.js";
+import { BitmapTextComponent, SpriteComponent, TextComponent, TextureComponent, TileSpriteComponent, TransformComponent } from "./components.js";
 
 export function defineSceneTools() {
 
@@ -38,53 +38,50 @@ export function defineSceneTools() {
     // Game Objects
 
     defineGameObjectTool("image", {
-        ...GameObjectComponent(),
         ...TransformComponent(),
         ...TextureComponent(),
     });
 
     defineGameObjectTool("sprite", {
-        ...GameObjectComponent(),
         ...TransformComponent(),
         ...TextureComponent(),
         ...SpriteComponent()
     });
 
     defineGameObjectTool("tilesprite", {
-        ...GameObjectComponent(),
         ...TransformComponent(),
         ...TextureComponent(),
         ...TileSpriteComponent()
     });
 
     defineGameObjectTool("text", {
-        ...GameObjectComponent(),
         ...TransformComponent(),
         ...TextComponent(),
     });
 
     defineGameObjectTool("layer", {
-        ...GameObjectComponent(),
         ...TransformComponent(),
     });
 
     defineGameObjectTool("container", {
-        ...GameObjectComponent(),
         ...TransformComponent(),
     });
 
     defineGameObjectTool("bitmaptext", {
-        ...GameObjectComponent(),
         ...TransformComponent(),
         ...BitmapTextComponent(),
     });
 
     function defineGameObjectTool(name: string, args: ZodRawShape) {
 
-        defineTool(`scene-add-${name}`, `Add a new ${name} game object to the scene.`, args);
+        defineTool(`scene-add-${name}`, `Add a new ${name} game object to the scene.`, {
+            label: z.string().describe("Label of the image. It is used to identify the image in the scene and in code."),
+            ...args
+        });
 
         defineTool(`scene-update-${name}`, `Update the given ${name} game object in the scene.`, {
             id: z.string().describe(`The \`id\` of the ${name} game object to update.`),
+            label: z.string().optional().describe("Label of the image. It is used to identify the image in the scene and in code."),
             ...args
         });
     }

@@ -1,12 +1,5 @@
 import { z } from "zod";
 
-export function GameObjectComponent() {
-
-    return {
-        label: z.string().optional().describe("Label of the image. It is used to identify the image in the scene and in code."),
-    };
-}
-
 export function TransformComponent() {
 
     return {
