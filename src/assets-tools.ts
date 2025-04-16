@@ -14,7 +14,11 @@ export function defineAssetTools() {
 
     defineTool("assets-get-bitmapfont-image", "Get the PNG image/texture of the given bitmap font.", {
         key: z.string().describe("The key of the bitmap font."),
-    })
+    });
+
+    defineTool("assets-get-spritesheet-image", "Get the PNG image/texture of the given spritesheet. You can use this tool to get a better understanding of the position of tiles/frames.", {
+        key: z.string().describe("The key of the bitmap font."),
+    });
 
     defineTool("assets-get-texture-content-bounding-box", "Get the bounding box of the content of the given texture. Many textures has transparent padding but we need the exact offset and size of the content/object of the texture to place them in the right positions in the scene. Like when placing different objects one next to the other, with touching edges.", {
         ...TextureComponent()
