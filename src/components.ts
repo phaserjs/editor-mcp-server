@@ -5,11 +5,17 @@ export function TransformComponent() {
     return {
         x: z.number().optional().describe("X position of the image"),
         y: z.number().optional().describe("Y position of the image"),
-        originX: z.number().optional().describe("Origin (or pivot) X of the image."),
-        originY: z.number().optional().describe("Origin (or pivot) Y of the image."),
-        scaleX: z.number().optional().describe("Scale X of the image"),
-        scaleY: z.number().optional().describe("Scale Y of the image"),
-        angle: z.number().optional().describe("Angle of the image, in degree."),
+        scaleX: z.number().default(1).optional().describe("Scale X of the image"),
+        scaleY: z.number().default(1).optional().describe("Scale Y of the image"),
+        angle: z.number().default(0).optional().describe("Angle of the image, in degree."),
+    };
+}
+
+export function OriginComponent(defaultValue = 0.5) {
+
+    return {
+        originX: z.number().default(defaultValue).optional().describe("Origin (or pivot) X of the image."),
+        originY: z.number().default(defaultValue).optional().describe("Origin (or pivot) Y of the image."),
     };
 }
 
@@ -117,5 +123,24 @@ export function EllipseComponent() {
 
     return {
         smoothness: z.number().optional().describe("The smoothness of the ellipse."),
+    }
+}
+
+export function TriangleComponent() {
+
+    return {
+        x1: z.number().optional().describe("X position of the first point of the triangle."),
+        y1: z.number().optional().describe("Y position of the first point of the triangle."),
+        x2: z.number().optional().describe("X position of the second point of the triangle."),
+        y2: z.number().optional().describe("Y position of the second point of the triangle."),
+        x3: z.number().optional().describe("X position of the third point of the triangle."),
+        y3: z.number().optional().describe("Y position of the third point of the triangle."),
+    }
+}
+
+export function PolygonComponent() {
+
+    return {
+        points: z.string().optional().describe("The points of the polygon. Use a string with the format `x1 y1 x2 y2 x3 y3 ...`")
     }
 }

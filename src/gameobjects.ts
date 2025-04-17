@@ -1,10 +1,11 @@
-import { BitmapTextComponent, EllipseComponent, ShapeComponent, SizeComponent, SpriteComponent, TextComponent, TextureComponent, TileSpriteComponent, TransformComponent } from "./components.js";
+import { BitmapTextComponent, EllipseComponent, OriginComponent, PolygonComponent, ShapeComponent, SizeComponent, SpriteComponent, TextComponent, TextureComponent, TileSpriteComponent, TransformComponent, TriangleComponent } from "./components.js";
 
 export const GameObjectTypes = [
     {
         type: "Image",
         schema: {
             ...TransformComponent(),
+            ...OriginComponent(),
             ...TextureComponent(),
         }
     },
@@ -12,6 +13,7 @@ export const GameObjectTypes = [
         type: "Sprite",
         schema: {
             ...TransformComponent(),
+            ...OriginComponent(),
             ...TextureComponent(),
             ...SpriteComponent()
         }
@@ -20,6 +22,7 @@ export const GameObjectTypes = [
         type: "TileSprite",
         schema: {
             ...TransformComponent(),
+            ...OriginComponent(),
             ...TextureComponent(),
             ...TileSpriteComponent()
         }
@@ -28,25 +31,27 @@ export const GameObjectTypes = [
         type: "Text",
         schema: {
             ...TransformComponent(),
+            ...OriginComponent(),
             ...TextComponent(),
         }
     },
     {
         type: "Layer",
         schema: {
-            ...TransformComponent(),
+            ...TransformComponent()
         }
     },
     {
         type: "Container",
         schema: {
-            ...TransformComponent(),
+            ...TransformComponent()
         }
     },
     {
         type: "BitmapText",
         schema: {
             ...TransformComponent(),
+            ...OriginComponent(0),
             ...BitmapTextComponent(),
         }
     },
@@ -54,6 +59,7 @@ export const GameObjectTypes = [
         type: "Rectangle",
         schema: {
             ...TransformComponent(),
+            ...OriginComponent(),
             ...ShapeComponent(),
             ...SizeComponent()
         }
@@ -62,9 +68,28 @@ export const GameObjectTypes = [
         type: "Ellipse",
         schema: {
             ...TransformComponent(),
+            ...OriginComponent(),
             ...ShapeComponent(),
             ...SizeComponent(),
             ...EllipseComponent()
+        }
+    },
+    {
+        type: "Triangle",
+        schema: {
+            ...TransformComponent(),
+            ...OriginComponent(),
+            ...ShapeComponent(),
+            ...TriangleComponent()
+        }
+    },
+    {
+        type: "Polygon",
+        schema: {
+            ...TransformComponent(),
+            ...OriginComponent(),
+            ...ShapeComponent(),
+            ...PolygonComponent()
         }
     }
 ];
