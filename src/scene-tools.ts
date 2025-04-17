@@ -2,7 +2,7 @@
 
 import { z, ZodRawShape } from "zod";
 import { defineTool } from "./utils.js";
-import { BitmapTextComponent, SpriteComponent, TextComponent, TextureComponent, TileSpriteComponent, TransformComponent } from "./components.js";
+import { GameObjectTypes } from "./gameobjects.js";
 
 export function defineSceneTools() {
 
@@ -35,53 +35,64 @@ export function defineSceneTools() {
         objectIds: z.array(z.string()).describe("The `id`s of the objects to move."),
     });
 
-    // Game Objects
+    // Define the scene add many game objects tool
 
-    defineGameObjectTool("image", {
-        ...TransformComponent(),
-        ...TextureComponent(),
-    });
+    {
+        const unionElements_add = GameObjectTypes.map((gameObjectType) => {
 
-    defineGameObjectTool("sprite", {
-        ...TransformComponent(),
-        ...TextureComponent(),
-        ...SpriteComponent()
-    });
+            return z.object({
+                type: z.literal(gameObjectType.type),
+                args: z.object({
+                    label: z.string().describe("Label of the object. It is used to name the object in the scene and as the variable name in code."),
+                    ...gameObjectType.schema
+                })
+            })
+        });
 
-    defineGameObjectTool("tilesprite", {
-        ...TransformComponent(),
-        ...TextureComponent(),
-        ...TileSpriteComponent()
-    });
+        defineTool("scene-add-objects", "Add multiple new game objects to the scene", {
+            objects: z.array(z.discriminatedUnion("type", unionElements_add as any)).describe("The game objects to add to the scene.")
+        });
 
-    defineGameObjectTool("text", {
-        ...TransformComponent(),
-        ...TextComponent(),
-    });
+        const unionElements_update = GameObjectTypes.map((gameObjectType) => {
 
-    defineGameObjectTool("layer", {
-        ...TransformComponent(),
-    });
+            const type = gameObjectType.type;
 
-    defineGameObjectTool("container", {
-        ...TransformComponent(),
-    });
+            return z.object({
+                type: z.literal(type),
+                args: z.object({
+                    id: z.string().describe(`The \`id\` of the ${type} game object to update.`),
+                    label: z.string().optional().describe("Label of the object. It is used to name the object in the scene and as the variable name in code."),
+                    ...gameObjectType.schema
+                })
+            })
+        });
 
-    defineGameObjectTool("bitmaptext", {
-        ...TransformComponent(),
-        ...BitmapTextComponent(),
-    });
+        defineTool("scene-update-objects", "Update multiple game objects in the scene.", {
+            objects: z.array(z.discriminatedUnion("type", unionElements_update as any)).describe("The game objects to add to the scene.")
+        });
+    }
 
-    function defineGameObjectTool(name: string, args: ZodRawShape) {
+     // Define all scene add/update game object tools
 
-        defineTool(`scene-add-${name}`, `Add a new ${name} game object to the scene.`, {
-            label: z.string().describe("Label of the image. It is used to identify the image in the scene and in code."),
+    // for (const gameObjectType of GameObjectTypes) {
+
+    //     defineGameObjectTool(gameObjectType.type, gameObjectType.schema);
+    // }
+    
+    // utils
+
+    function defineGameObjectTool(type: string, args: ZodRawShape) {
+
+        const name = type.toLowerCase();
+
+        defineTool(`scene-add-${name}`, `Add a new ${type} game object to the scene.`, {
+            label: z.string().describe("Label of the object. It is used to name the object in the scene and as the variable name in code."),
             ...args
         });
 
-        defineTool(`scene-update-${name}`, `Update the given ${name} game object in the scene.`, {
-            id: z.string().describe(`The \`id\` of the ${name} game object to update.`),
-            label: z.string().optional().describe("Label of the image. It is used to identify the image in the scene and in code."),
+        defineTool(`scene-update-${name}`, `Update the given ${type} game object in the scene.`, {
+            id: z.string().describe(`The \`id\` of the ${type} game object to update.`),
+            label: z.string().optional().describe("Label of the object. It is used to name the object in the scene and as the variable name in code."),
             ...args
         });
     }

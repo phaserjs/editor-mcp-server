@@ -91,3 +91,31 @@ export function TileSpriteComponent() {
         tileScaleY: z.number().optional().describe("The tile scale Y of the tile sprite."),
     }
 }
+
+export function SizeComponent() {
+
+    return {
+        width: z.number().optional().describe("The width of the game object."),
+        height: z.number().optional().describe("The height of the game object."),
+    }
+}
+
+export function ShapeComponent() {
+
+    return {
+        fillColor: z.string().optional().describe("The fill color of the shape. In hex format, like `#ff0000`."),
+        isFilled: z.boolean().optional().describe("If true, the shape is filled."),
+        fillAlpha: z.number().optional().describe("The fill alpha of the shape."),
+        isStroked: z.boolean().optional().describe("If true, the shape is stroked."),
+        strokeColor: z.string().optional().describe("The stroke color of the shape. In hex format, like `#ff0000`."),
+        strokeAlpha: z.number().optional().describe("The stroke alpha of the shape."),
+        lineWidth: z.number().optional().describe("The line width of the shape."),
+    };
+}
+
+export function EllipseComponent() {
+
+    return {
+        smoothness: z.number().optional().describe("The smoothness of the ellipse."),
+    }
+}
