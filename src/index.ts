@@ -1,7 +1,9 @@
 import { defineAssetTools } from "./assets-tools.js";
 import { startServer } from "./utils.js";
 import { defineSceneTools } from "./scene-tools.js";
-import { defineAnimationsTools } from "./animations-tools.js";
+import { defineIDETools } from "./ide-tools.js";
+
+defineIDETools();
 
 defineSceneTools();
 
