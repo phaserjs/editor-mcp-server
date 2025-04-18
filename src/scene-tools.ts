@@ -7,6 +7,10 @@ import { defineAssetTools } from "./assets-tools.js";
 
 export function defineSceneTools() {
 
+    defineTool("scene-clear-scene", "Clear the current scene.", {
+        sceneId: z.string().describe("The `id` of the scene")
+    });
+
     defineTool("scene-get-scene-dimension", "Get the dimensions of the current scene.", {
         sceneId: z.string().describe("The `id` of the scene")
     });
