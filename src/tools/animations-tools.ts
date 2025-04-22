@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { defineTool } from "./utils.js";
+import { defineTool } from "../utils.js";
 
 
 // You may want to define the frame type if not already imported

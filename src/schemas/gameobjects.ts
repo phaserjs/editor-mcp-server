@@ -1,4 +1,7 @@
-import { BitmapTextComponent, EllipseComponent, OriginComponent, PolygonComponent, ShapeComponent, SizeComponent, SpriteComponent, TextComponent, TextureComponent, TileSpriteComponent, TransformComponent, TriangleComponent } from "./components.js";
+import { BitmapTextComponent, OriginComponent,  SizeComponent, SpriteComponent, TextComponent, TextureComponent, TileSpriteComponent, TransformComponent } from "./components.js";
+import { ParticleEmitterComponent } from "./particle-emitter.js";
+import { EllipseComponent, PolygonComponent, ShapeComponent, TriangleComponent } from "./shape.js";
+
 
 export const GameObjectTypes = [
     {
@@ -90,6 +93,14 @@ export const GameObjectTypes = [
             ...OriginComponent(),
             ...ShapeComponent(),
             ...PolygonComponent()
+        }
+    },
+    {
+        type: "ParticleEmitter",
+        schema: {
+            ...TransformComponent(),
+            ...OriginComponent(),
+            ...ParticleEmitterComponent()
         }
     }
 ];

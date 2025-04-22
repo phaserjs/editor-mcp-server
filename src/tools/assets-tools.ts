@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { defineTool } from "./utils.js";
-import { TextureComponent } from "./components.js";
+import { TextureComponent } from "../schemas/components.js";
+import { defineTool } from "../utils.js";
 
 export function defineAssetTools() {
 

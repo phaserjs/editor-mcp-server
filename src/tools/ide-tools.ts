@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { defineTool } from "./utils.js";
-import { SceneId } from "./components.js";
+import { defineTool } from "../utils.js";
+import { SceneId } from "../schemas/components.js";
 
 export function defineIDETools() {
 

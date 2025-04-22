@@ -1,10 +1,9 @@
 // Scene
 
-import { z, ZodRawShape } from "zod";
-import { defineTool } from "./utils.js";
-import { GameObjectTypes } from "./gameobjects.js";
-import { defineAssetTools } from "./assets-tools.js";
-import { SceneId } from "./components.js";
+import { z } from "zod";
+import { defineTool } from "../utils.js";
+import { SceneId } from "../schemas/components.js";
+import { GameObjectTypes } from "../schemas/gameobjects.js";
 
 export function defineSceneTools() {
 
@@ -59,7 +58,7 @@ export function defineSceneTools() {
                 type: z.literal(gameObjectType.type),
                 args: z.object({
                     label: z.string().describe("Label of the object. It is used to name the object in the scene and as the variable name in code."),
-                    ...gameObjectType.schema
+                    ...gameObjectType.schema as any
                 })
             })
         });
@@ -78,7 +77,7 @@ export function defineSceneTools() {
                 args: z.object({
                     id: z.string().describe(`The \`id\` of the ${type} game object to update.`),
                     label: z.string().optional().describe("Label of the object. It is used to name the object in the scene and as the variable name in code."),
-                    ...gameObjectType.schema
+                    ...gameObjectType.schema as any
                 })
             })
         });
