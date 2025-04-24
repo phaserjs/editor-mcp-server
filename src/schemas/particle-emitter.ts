@@ -155,17 +155,6 @@ export function ParticleEmitterComponent() {
 
             // color
 
-            /*
-        static color = makePropertySet("color", "Color", "phaser:Phaser.GameObjects.Particles.ParticleEmitter.particleColor", ParticleEmitterEditorType.COLOR, undefined, undefined, undefined, [ConfigValueType.None, ConfigValueType.Random]);
-
-        static colorEase = SimpleEnumObjConfigProperty("colorEase", "Linear", easeValues, easeValues, "Color Ease", "phaser:Phaser.GameObjects.Particles.ParticleEmitter.colorEase",);
-        static tintFill = SimpleObjConfigProperty("tintFill", false, "Tint Fill");
-        static blendMode = SimpleEnumObjConfigProperty("blendMode", Phaser.BlendModes.NORMAL,
-            Object.keys(Phaser.BlendModes).map(k => Phaser.BlendModes[k]),
-            Object.keys(Phaser.BlendModes), "Blend Mode",
-            "phaser:Phaser.GameObjects.Particles.ParticleEmitter.blendMode",);
-            */
-
             tint: EmitterOp_onEmitAndUpdate().describe("A color tint value that is applied to the texture of the emitted particle. The value should be given in hex format, i.e. 0xff0000 for a red tint, and should not include the alpha channel. Tints are additive, meaning a tint value of white (0xffffff) will effectively reset the tint to nothing. Modify the `ParticleEmitter.tintFill` property to change between an additive and replacement tint mode. The `tint` value will be overriden if a `color` array is provided. This is a WebGL only feature."),
             alpha: EmitterOp_onEmitAndUpdate().describe("The alpha value of the emitted particles. This is a value between 0 and 1. Particles with alpha zero are invisible and are therefore not rendered, but are still processed by the Emitter."),
             color: EmitterOp_Random().describe("A color tint value that is applied to the texture of the emitted particle. The value should be given in hex format, i.e. 0xff0000 for a red tint, and should not include the alpha channel. Tints are additive, meaning a tint value of white (0xffffff) will effectively reset the tint to nothing. Modify the `ParticleEmitter.tintFill` property to change between an additive and replacement tint mode. When you define the color via the Emitter config you should give it as an array of color values. The Particle will then interpolate through these colors over the course of its lifespan. Setting this will override any `tint` value that may also be given. This is a WebGL only feature."),
@@ -174,15 +163,18 @@ export function ParticleEmitterComponent() {
             blendMode: z.nativeEnum(BlendModes).default(BlendModes.NORMAL).optional().describe("The blend mode applied to the emitted particles. This is a WebGL only feature."),
 
             // sorting
+
             particleBringToTop: z.boolean().default(false).optional().describe("Newly emitted particles are added to the top of the particle list, i.e. rendered above those already alive. Set to false to send them to the back. Also see the `sortOrder` property for more complex particle sorting."),
             sortOrderAsc: z.boolean().default(true).optional().describe("When `sortProperty` is defined this controls the sorting order, either ascending or descending. Toggle to control the visual effect."),
             sortProperty: z.string().optional().describe("Optionally sort the particles before they render based on this property. The property must exist on the `Particle` class, such as `y`, `lifeT`, `scaleX`, etc. When set this overrides the `particleBringToTop` setting. To reset this and disable sorting, set this property to an empty string."),
 
             // preview
+
             previewAdvance: z.number().default(1000).optional().describe("The amount of time, in milliseconds, to advance the preview by. This is useful for testing the emitter in the editor."),
             previewActive: z.boolean().default(true).optional().describe("Set to true to preview the emitter in the editor. This will start the emitter and show the particles in the editor."),
 
             // texture
+            
             configTexture: z.string().optional().describe("The texture key of the emitter. It is the key of the texture, like in the key of a texture atlas. The emitter can use multiple frames of the given texture."),
             configFrame: z.array(FrameSchema).optional().describe("The frame key of the texture, in case it is an atlas, sprite-sheet, or other complex texture. You can set multiple frame keys."),
         })
