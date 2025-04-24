@@ -18,6 +18,38 @@ const ConfigValueType_Random = z.object({
 
 const EaseConstants = ["Power0", "Power1", "Power2", "Power3", "Power4", "Linear", "Quad", "Cubic", "Quart", "Quint", "Sine", "Expo", "Circ", "Elastic", "Back", "Bounce", "Stepped", "Quad.easeIn", "Cubic.easeIn", "Quart.easeIn", "Quint.easeIn", "Sine.easeIn", "Expo.easeIn", "Circ.easeIn", "Elastic.easeIn", "Back.easeIn", "Bounce.easeIn", "Quad.easeOut", "Cubic.easeOut", "Quart.easeOut", "Quint.easeOut", "Sine.easeOut", "Expo.easeOut", "Circ.easeOut", "Elastic.easeOut", "Back.easeOut", "Bounce.easeOut", "Quad.easeInOut", "Cubic.easeInOut", "Quart.easeInOut", "Quint.easeInOut", "Sine.easeInOut", "Expo.easeInOut", "Circ.easeInOut", "Elastic.easeInOut", "Back.easeInOut", "Bounce.easeInOut"] as const;
 
+enum BlendModes {
+    SKIP_CHECK,
+    NORMAL,
+    ADD,
+    MULTIPLY,
+    SCREEN,
+    OVERLAY,
+    DARKEN,
+    LIGHTEN,
+    COLOR_DODGE,
+    COLOR_BURN,
+    HARD_LIGHT,
+    SOFT_LIGHT,
+    DIFFERENCE,
+    EXCLUSION,
+    HUE,
+    SATURATION,
+    COLOR,
+    LUMINOSITY,
+    ERASE,
+    SOURCE_IN,
+    SOURCE_OUT,
+    SOURCE_ATOP,
+    DESTINATION_OVER,
+    DESTINATION_IN,
+    DESTINATION_OUT,
+    DESTINATION_ATOP,
+    LIGHTER,
+    COPY,
+    XOR,
+}
+
 const ConfigValueType_StartEndRandom = z.object({
     type: z.literal("StartEndRandom"),
     start: z.number(),
@@ -47,6 +79,14 @@ const ConfigValueType_MinMax = z.object({
     max: z.number().default(0).optional().describe("The minimum value of the range. A random value is selected between 'min' and 'max'."),
     int: z.boolean().default(false).optional().describe("The maximum value."),
 });
+
+function EmitterOp_Random() {
+
+    return z.discriminatedUnion("type", [
+        ConfigValueType_None,
+        ConfigValueType_Random
+    ]).optional();
+}
 
 function EmitterOp_onEmitAndUpdate() {
 
@@ -102,16 +142,45 @@ export function ParticleEmitterComponent() {
 
             // physics
 
-            accelerationX: EmitterOp_onEmitAndUpdate().optional().describe("The horizontal acceleration applied to emitted particles, in pixels per second squared."),
-            accelerationY: EmitterOp_onEmitAndUpdate().optional().describe("The vertical acceleration applied to emitted particles, in pixels per second squared."),
-            maxVelocityX: EmitterOp_onEmitAndUpdate().optional().describe("The maximum horizontal velocity emitted particles can reach, in pixels per second squared."),
-            maxVelocityY: EmitterOp_onEmitAndUpdate().optional().describe("The maximum vertical velocity emitted particles can reach, in pixels per second squared."),
-            speed: EmitterOp_onEmitOnly().optional().describe(" The initial speed of emitted particles, in pixels per second. If using this as a getter it will return the `speedX` value. If using it as a setter it will update both `speedX` and `speedY` to the given value."),
-            speedX: EmitterOp_onEmitOnly().optional().describe("The initial horizontal speed of emitted particles, in pixels per second."),
-            speedY: EmitterOp_onEmitOnly().optional().describe("The initial vertical speed of emitted particles, in pixels per second."),
+            accelerationX: EmitterOp_onEmitAndUpdate().describe("The horizontal acceleration applied to emitted particles, in pixels per second squared."),
+            accelerationY: EmitterOp_onEmitAndUpdate().describe("The vertical acceleration applied to emitted particles, in pixels per second squared."),
+            maxVelocityX: EmitterOp_onEmitAndUpdate().describe("The maximum horizontal velocity emitted particles can reach, in pixels per second squared."),
+            maxVelocityY: EmitterOp_onEmitAndUpdate().describe("The maximum vertical velocity emitted particles can reach, in pixels per second squared."),
+            speed: EmitterOp_onEmitOnly().describe(" The initial speed of emitted particles, in pixels per second. If using this as a getter it will return the `speedX` value. If using it as a setter it will update both `speedX` and `speedY` to the given value."),
+            speedX: EmitterOp_onEmitOnly().describe("The initial horizontal speed of emitted particles, in pixels per second."),
+            speedY: EmitterOp_onEmitOnly().describe("The initial vertical speed of emitted particles, in pixels per second."),
             gravityX: z.number().default(0).optional().describe("Horizontal acceleration applied to emitted particles, in pixels per second squared."),
             gravityY: z.number().default(0).optional().describe("Vertical acceleration applied to emitted particles, in pixels per second squared."),
             radial: z.boolean().default(true).optional().describe("A radial emitter will emit particles in all directions between angle min and max, using `speed` as the value. If set to false then this acts as a point Emitter. A point emitter will emit particles only in the direction derived from the speedX and speedY values."),
+
+            // color
+
+            /*
+        static color = makePropertySet("color", "Color", "phaser:Phaser.GameObjects.Particles.ParticleEmitter.particleColor", ParticleEmitterEditorType.COLOR, undefined, undefined, undefined, [ConfigValueType.None, ConfigValueType.Random]);
+
+        static colorEase = SimpleEnumObjConfigProperty("colorEase", "Linear", easeValues, easeValues, "Color Ease", "phaser:Phaser.GameObjects.Particles.ParticleEmitter.colorEase",);
+        static tintFill = SimpleObjConfigProperty("tintFill", false, "Tint Fill");
+        static blendMode = SimpleEnumObjConfigProperty("blendMode", Phaser.BlendModes.NORMAL,
+            Object.keys(Phaser.BlendModes).map(k => Phaser.BlendModes[k]),
+            Object.keys(Phaser.BlendModes), "Blend Mode",
+            "phaser:Phaser.GameObjects.Particles.ParticleEmitter.blendMode",);
+            */
+
+            tint: EmitterOp_onEmitAndUpdate().describe("A color tint value that is applied to the texture of the emitted particle. The value should be given in hex format, i.e. 0xff0000 for a red tint, and should not include the alpha channel. Tints are additive, meaning a tint value of white (0xffffff) will effectively reset the tint to nothing. Modify the `ParticleEmitter.tintFill` property to change between an additive and replacement tint mode. The `tint` value will be overriden if a `color` array is provided. This is a WebGL only feature."),
+            alpha: EmitterOp_onEmitAndUpdate().describe("The alpha value of the emitted particles. This is a value between 0 and 1. Particles with alpha zero are invisible and are therefore not rendered, but are still processed by the Emitter."),
+            color: EmitterOp_Random().describe("A color tint value that is applied to the texture of the emitted particle. The value should be given in hex format, i.e. 0xff0000 for a red tint, and should not include the alpha channel. Tints are additive, meaning a tint value of white (0xffffff) will effectively reset the tint to nothing. Modify the `ParticleEmitter.tintFill` property to change between an additive and replacement tint mode. When you define the color via the Emitter config you should give it as an array of color values. The Particle will then interpolate through these colors over the course of its lifespan. Setting this will override any `tint` value that may also be given. This is a WebGL only feature."),
+            colorEase: z.enum(EaseConstants).default("Linear").optional().describe("Controls the easing function used when you have created an Emitter that uses the `color` property to interpolate the tint of Particles over their lifetime. Setting this has no effect if you haven't also applied a `color` to this Emitter."),
+            tintFill: z.boolean().default(false).optional().describe("The tint fill mode used by the Particles in this Emitter. `false` = An additive tint (the default), where vertices colors are blended with the texture. `true` = A fill tint, where the vertices colors replace the texture, but respects texture alpha."),
+            blendMode: z.nativeEnum(BlendModes).default(BlendModes.NORMAL).optional().describe("The blend mode applied to the emitted particles. This is a WebGL only feature."),
+
+            // sorting
+            particleBringToTop: z.boolean().default(false).optional().describe("Newly emitted particles are added to the top of the particle list, i.e. rendered above those already alive. Set to false to send them to the back. Also see the `sortOrder` property for more complex particle sorting."),
+            sortOrderAsc: z.boolean().default(true).optional().describe("When `sortProperty` is defined this controls the sorting order, either ascending or descending. Toggle to control the visual effect."),
+            sortProperty: z.string().optional().describe("Optionally sort the particles before they render based on this property. The property must exist on the `Particle` class, such as `y`, `lifeT`, `scaleX`, etc. When set this overrides the `particleBringToTop` setting. To reset this and disable sorting, set this property to an empty string."),
+
+            // preview
+            previewAdvance: z.number().default(1000).optional().describe("The amount of time, in milliseconds, to advance the preview by. This is useful for testing the emitter in the editor."),
+            previewActive: z.boolean().default(true).optional().describe("Set to true to preview the emitter in the editor. This will start the emitter and show the particles in the editor."),
 
             // texture
             configTexture: z.string().optional().describe("The texture key of the emitter. It is the key of the texture, like in the key of a texture atlas. The emitter can use multiple frames of the given texture."),
