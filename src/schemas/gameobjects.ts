@@ -1,4 +1,4 @@
-import { BitmapTextComponent, OriginComponent,  SizeComponent, SpriteComponent, TextComponent, TextureComponent, TileSpriteComponent, TransformComponent } from "./components.js";
+import { BitmapTextComponent, OriginComponent,  SizeComponent, SpineComponent, SpriteComponent, TextComponent, TextureComponent, TileSpriteComponent, TransformComponent } from "./components.js";
 import { ParticleEmitterComponent } from "./particle-emitter.js";
 import { EllipseComponent, PolygonComponent, ShapeComponent, TriangleComponent } from "./shape.js";
 
@@ -101,6 +101,14 @@ export const GameObjectTypes = [
             ...TransformComponent(),
             ...OriginComponent(),
             ...ParticleEmitterComponent()
+        }
+    },
+    {
+        type: "SpineGameObject",
+        schema: {
+            ...TransformComponent(),
+            ...OriginComponent(),
+            ...SpineComponent()
         }
     }
 ];

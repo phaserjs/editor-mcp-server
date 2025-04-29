@@ -25,4 +25,13 @@ export function defineAssetTools() {
     });
 
     defineTool("assets-get-available-animations", "Get all available sprite animations in the project.", {});
+
+    defineTool("assets-get-available-spine-skeletons", "Get the all the Spine skeletons in the project. It only returns the key of the skeleton.", {});
+    
+    defineTool("assets-get-available-spine-atlases", "Get the all the Spine atlases in the project.", {});
+
+    defineTool("assets-get-spine-skeleton-info", "Get the skeleton info (animations and skins) of the given Spine skeleton key. To build the info of a skeleton it requires also the Spine atlas key. The user can select a different atlas key, but it is common that the user also define a 'preview' atlas key for each skeleton. You can use it if it exists or ask for a different atlas key to the user.", {
+        dataKey: z.string().describe("The key of the spine data (skeleton) asset."),
+        atlasKey: z.string().describe("The key of the spine atlas asset."),
+    });
 }
