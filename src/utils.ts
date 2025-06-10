@@ -9,6 +9,8 @@ export let mcpServer = new McpServer({
     capabilities: {
         tools: {},
     },
+}, {
+    instructions: "TODO: add instructions",
 });
 
 export async function startServer() {

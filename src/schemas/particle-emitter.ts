@@ -173,10 +173,16 @@ export function ParticleEmitterComponent() {
             previewAdvance: z.number().default(1000).optional().describe("The amount of time, in milliseconds, to advance the preview by. This is useful for testing the emitter in the editor."),
             previewActive: z.boolean().default(true).optional().describe("Set to true to preview the emitter in the editor. This will start the emitter and show the particles in the editor."),
 
+            // animation
+
+            _anim: z.array(z.string()).default([]).optional().describe("An array of animation keys that are used to animate the particles. The keys should be the same as the animation keys for sprite animations. You should provide animations or textures/frames, not both."),
+            _animCycle: z.boolean().default(false).optional().describe("Whether animations will be assigned consecutively (true) or at random (false)."),
+            _animQuantity: z.number().default(1).optional().describe("The number of consecutive particles receiving each animation, when `cycle` is true."),
+
             // texture
 
-            configTexture: z.string().optional().describe("The texture key of the emitter. It is the key of the texture, like in the key of a texture atlas. The emitter can use multiple frames of the given texture."),
-            configFrame: z.array(FrameSchema).optional().describe("The frame key of the texture, in case it is an atlas, sprite-sheet, or other complex texture. You can set multiple frame keys."),
+            configTexture: z.string().optional().describe("The texture key of the emitter. It is the key of the texture, like in the key of a texture atlas. The emitter can use multiple frames of the given texture. You should provide animations or textures/frames, not both."),
+            configFrame: z.array(FrameSchema).optional().describe("The frame key of the texture, in case it is an atlas, sprite-sheet, or other complex texture. You can set multiple frame keys. You should provide animations or textures/frames, not both."),
         }).optional().describe("The configuration object for the Particle Emitter. This is the object that is passed to the Particle Emitter when it is created. It contains all the properties that can be set on the emitter, as well as the default values for each property. Some of the properties, know as EmitterOp properties, have a complex structure of different types."),
     };
 }
