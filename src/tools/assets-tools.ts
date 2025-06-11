@@ -41,4 +41,10 @@ export function defineAssetTools() {
         skinName: z.string().describe("The name of the skin to use. A skeleton can have multiple skins."),
         animationName: z.string().describe("The name of the animation to use. A skeleton can have multiple animations."),
     });
+
+    defineTool("assets-get-available-tilemaps", "Search for the available Tiled tilemap files in the asset packs and return the list of tilemap keys. A Tiled tilemap file contains the data of a tilemap. It is used by the scene editor to create the Tilemap and TilemapLayer objects. These maps are created by the third party tool Tiled. Like the other assets in the asset packs, Phaser Editor uses the tilemap key to identify the tilemap.", {});
+
+    defineTool("assets-get-tilemap-data", "Get the data of a Tiled tilemap file. It returns the data of the tilemap, including the layers, tilesets, and objects. The data is used by the scene editor to create the Tilemap and TilemapLayer objects.", {
+        key: z.string().describe("The key of the file in the asset pack. The key is used by the scene editor to create Tilemap objects."),
+    });
 }

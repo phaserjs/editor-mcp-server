@@ -49,6 +49,12 @@ export function defineSceneTools() {
         objectIds: z.array(z.string()).describe("The `id`s of the objects to move."),
     });
 
+    // tilemap tools
+
+    defineTool("scene-add-tilemap", "Add a new tilemap to the scene.", {
+
+    });
+
     // Define the scene add many game objects tool
 
     {
