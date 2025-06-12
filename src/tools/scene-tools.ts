@@ -34,9 +34,9 @@ export function defineSceneTools() {
         move: z.enum(["Up", "Down", "Top", "Bottom"]).describe("Move the objects upm down, top, or bottom in the render list."),
     });
 
-    defineTool("scene-delete-game-objects", "Delete the given objects from the scene.", {
+    defineTool("scene-delete-game-objects", "Delete the given game objects from the scene.", {
         ...SceneId(),
-        objectIds: z.array(z.string()).describe("The `id`s of the objects to delete.")
+        objectIds: z.array(z.string()).describe("The `id`s of the game objects to delete.")
     });
 
     defineTool("scene-move-game-objects-to-parent", "Move the given objects to the given parent.", {
@@ -48,6 +48,13 @@ export function defineSceneTools() {
     defineTool("scene-pack-objects-in-container", "Create a container to group the given objects. The container and objects are positioned so the container size is minimal.", {
         ...SceneId(),
         objectIds: z.array(z.string()).describe("The `id`s of the objects to move."),
+    });
+
+    // Plain objects tools
+
+    defineTool("scene-delete-plain-objects", "Delete the given plain objects from the scene.", {
+        ...SceneId(),
+        objectIds: z.array(z.string()).describe("The `id`s of the plain objects to delete.")
     });
 
     // Define the scene add many game objects tool
