@@ -51,9 +51,9 @@ export function defineSceneTools() {
 
     // tilemap tools
 
-    defineTool("scene-add-tilemap", "Add a new tilemap to the scene.", {
+    // defineTool("scene-add-tilemap", "Add a new tilemap to the scene.", {
 
-    });
+    // });
 
     // Define the scene add many game objects tool
 

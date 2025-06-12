@@ -1,6 +1,7 @@
 import { BitmapTextComponent, OriginComponent,  SizeComponent, SpineComponent, SpriteComponent, TextComponent, TextureComponent, TileSpriteComponent, TransformComponent } from "./components.js";
 import { ParticleEmitterComponent } from "./particle-emitter.js";
 import { EllipseComponent, PolygonComponent, ShapeComponent, TriangleComponent } from "./shape.js";
+import { TilemapComponent, TilemapLayerComponent } from "./tilemap.js";
 
 
 export const GameObjectTypes = [
@@ -109,6 +110,19 @@ export const GameObjectTypes = [
             ...TransformComponent(),
             ...OriginComponent(),
             ...SpineComponent()
+        }
+    },
+    {
+        type: "Tilemap",
+        schema: {
+            ...TilemapComponent()
+        }
+    },
+    {
+        type: "TilemapLayer",
+        schema: {
+            ...TransformComponent(),
+            ...TilemapLayerComponent()
         }
     }
 ];
