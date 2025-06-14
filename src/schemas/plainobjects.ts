@@ -1,4 +1,4 @@
-import { TilemapComponent } from "./tilemap.js";
+import { EditableTilemapComponent, TilemapComponent } from "./tilemap.js";
 
 export const PlainObjectTypes = [
     {
@@ -7,4 +7,10 @@ export const PlainObjectTypes = [
             ...TilemapComponent()
         }
     },
+    {
+        type: "EditableTilemap",
+        schema: {
+            ...EditableTilemapComponent()
+        }
+    }
 ];

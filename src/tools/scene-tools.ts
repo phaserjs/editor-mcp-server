@@ -5,6 +5,7 @@ import { defineTool } from "../utils.js";
 import { SceneId } from "../schemas/components.js";
 import { GameObjectTypes } from "../schemas/gameobjects.js";
 import { PlainObjectTypes } from "../schemas/plainobjects.js";
+import { EditableTilemapComponent, EditableTilemapLayerSchema } from "../schemas/tilemap.js";
 
 export function defineSceneTools() {
 
@@ -48,6 +49,14 @@ export function defineSceneTools() {
     defineTool("scene-pack-objects-in-container", "Create a container to group the given objects. The container and objects are positioned so the container size is minimal.", {
         ...SceneId(),
         objectIds: z.array(z.string()).describe("The `id`s of the objects to move."),
+    });
+
+    // editable tilemaps tools
+
+    defineTool("scene-add-editable-tilemap-layer", "Add an editable tilemap layer to an editable tilemap. Because the complexity of the editable tilemaps, we provide a couple of dedicated tools. An editable tilemap is different to a Tiled map because all the data can be edited by the user in the scene editor.", {
+        ...SceneId(),
+        tilemapId: z.string().describe("The `id` of the editable tilemap to add the layer to. An 'editable tilemap' is not the same as a Tiled tilemap."),
+        layer: EditableTilemapLayerSchema
     });
 
     // Plain objects tools
