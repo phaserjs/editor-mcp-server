@@ -35,7 +35,6 @@ export function EditableTilemapLayerComponent() {
 
 export const EditableTilemapLayerSchema = z.object({
     name: z.string().describe("The name of the layer in the editable tilemap. It will be always the same of the label of the EditableLayer game object. The name is also used to generate a variable name in code, so it should be a valid variable name."),
-    data: z.array(z.array(z.number())).describe("The tile data of the layer. Each item is a tile ID, or -1 for an empty tile. The tile ID is a global ID that is computed by the index (starting from 1) of the tile in the tileset. If there are more than one tileset, then the global ID is computed by adding the length of each tileset."),
     width: z.number().describe("The width of the layer in tiles."),
     height: z.number().describe("The height of the layer in tiles."),
     tileWidth: z.number().describe("The width of each tile in pixels."),
