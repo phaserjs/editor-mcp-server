@@ -75,7 +75,12 @@ export function defineSceneTools() {
         width: z.number().describe("The width of the region to fill in tiles."),
         height: z.number().describe("The height of the region to fill in tiles."),
         tileId: z.number().describe("The tile ID to fill the region with. The tile ID is a global ID that is computed by the index (starting from 1) of the tile in the tileset. If there are more than one tileset, then the global ID is computed by adding the length of each tileset.")
-    })
+    });
+
+    defineTool("scene-get-editable-tilemap-layer-selection-data", "Get the selected tile data of an editable tilemap layer. It returns a 2D array with the tile IDs. The selection is always a rectangular region of the tilemap layer.", {
+        ...SceneId(),
+    });
+
 
     // Plain objects tools
 
