@@ -67,6 +67,16 @@ export function defineSceneTools() {
         y: z.number().describe("The y coordinate of the top left corner of the data to write."),        
     });
 
+    defineTool("scene-fill-editable-tilemap-layer-data", "Fill a region of the tile data of an editable tilemap layer with a single tile ID. This is useful to do things like clear the layer (fill the full layer with a -1 tile), or to paint backgrounds, filling the layer with the background tile, or filling just a part of the layer like for making a floor, or any other level element.", {
+        ...SceneId(),
+        layerId: z.string().describe("The `id` of the editable tilemap layer to fill. An editable tilemap layer is also a game object, so you can use the `id` of the EditableLayer game object."),
+        x: z.number().describe("The x coordinate of the top left corner of the region to fill."),
+        y: z.number().describe("The y coordinate of the top left corner of the region to fill."),
+        width: z.number().describe("The width of the region to fill in tiles."),
+        height: z.number().describe("The height of the region to fill in tiles."),
+        tileId: z.number().describe("The tile ID to fill the region with. The tile ID is a global ID that is computed by the index (starting from 1) of the tile in the tileset. If there are more than one tileset, then the global ID is computed by adding the length of each tileset.")
+    })
+
     // Plain objects tools
 
     defineTool("scene-delete-plain-objects", "Delete the given plain objects from the scene.", {
