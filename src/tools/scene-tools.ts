@@ -62,7 +62,7 @@ export function defineSceneTools() {
     defineTool("scene-write-editable-tilemap-layer-data", "Write part of the tile data of an editable tilemap layer. This is useful to update a layer's data without having to send the whole layer data again.", {
         ...SceneId(),
         layerId: z.string().describe("The `id` of the editable tilemap layer to write to. An editable tilemap layer is also a game object, so you can use the `id` of the EditableLayer game object."),
-        data: z.array(z.array(z.number())).describe("The tile data to write to the layer. Each item is a tile ID, or -1 for an empty tile. The tile ID is a global ID that is computed by the index of the tile in the tileset. If there are more than one tileset, then the global ID is computed by adding the length of each tileset. The data is a 2D array, where each inner array represents a row of tiles."),
+        data: z.array(z.array(z.number())).describe("The tile data to write to the layer. Each item is a tile ID, or -1 for an empty tile. The tile ID is a global ID that is computed by the index (starting from 1) of the tile in the tileset. If there are more than one tileset, then the global ID is computed by adding the length of each tileset. The data is a 2D array, where each inner array represents a row of tiles."),
         x: z.number().describe("The x coordinate of the top left corner of the data to write."),
         y: z.number().describe("The y coordinate of the top left corner of the data to write."),        
     });
@@ -77,7 +77,7 @@ export function defineSceneTools() {
     // Define the scene add many game objects tool
 
     {
-        const unionElements_add = GameObjectTypes.map((gameObjectType) => {
+        const unionElements_add = GameObjectTypes.filter(t => !t.updateOnly).map((gameObjectType) => {
 
             return z.object({
                 type: z.literal(gameObjectType.type),

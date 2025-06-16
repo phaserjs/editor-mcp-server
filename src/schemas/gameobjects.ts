@@ -121,9 +121,9 @@ export const GameObjectTypes = [
     },
     {
         type: "EditableTilemapLayer",
+        updateOnly: true,
         schema: {
-            ...TransformComponent(),
-            ...EditableTilemapLayerComponent()
+            ...TransformComponent()
         }
     }
 ];
