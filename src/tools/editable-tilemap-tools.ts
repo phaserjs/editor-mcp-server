@@ -23,6 +23,14 @@ export function defineTilemapTools() {
         tilesets: z.array(EditableTilesetConfig).describe("The tilesets used by the tilemap."),
     });
 
+    defineTool("scene-add-tileset-to-editable-tilemap", "Add a tileset to an editable tilemap. This will add the tileset to the tilemap data, but it will not add the tileset asset itself. It also will update the ID of the tiles of every layer in the map.", {
+        ...SceneId(),
+        tilemapId: z.string().describe("The `id` of the editable tilemap to add the tileset to."),
+        tileset: z.object({
+            imageKey: z.string().describe("The key of an asset image or spritesheet to associate with the tileset."),
+        })
+    });
+
     defineTool("scene-delete-tileset-from-editable-tilemap", "Delete a tileset from an editable tilemap. This will remove the tileset from the tilemap data, but it will not delete the tileset asset itself. It also will update the ID of the tiles of every layer in the map.", {
         ...SceneId(),
         tilemapId: z.string().describe("The `id` of the editable tilemap to delete the tileset from. An 'editable tilemap' is not the same as a Tiled tilemap."),
