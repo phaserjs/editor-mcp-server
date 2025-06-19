@@ -49,6 +49,13 @@ export function defineTilemapTools() {
         })
     });
 
+    defineTool("scene-resize-editable-tilemap-layer", "Resize an editable tilemap layer. This will resize the layer data, but it will not resize the layer game object itself. It also will update the ID of the tiles of every layer in the map.", {
+        ...SceneId(),
+        layerId: z.string().describe("The `id` of the editable tilemap layer to resize. An editable tilemap layer is also a game object, so you can use the `id` of the EditableLayer game object."),
+        width: z.number().describe("The new width of the layer in tiles."),
+        height: z.number().describe("The new height of the layer in tiles.")
+    });
+
     defineTool("scene-write-editable-tilemap-layer-data", "Write part of the tile data of an editable tilemap layer. This is useful to update a layer's data without having to send the whole layer data again.", {
         ...SceneId(),
         layerId: z.string().describe("The `id` of the editable tilemap layer to write to. An editable tilemap layer is also a game object, so you can use the `id` of the EditableLayer game object."),
