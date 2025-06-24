@@ -126,3 +126,13 @@ export function SpineComponent() {
         previewTime: z.number().default(0).optional().describe("The start time of the animation to preview. You can use it to advance the animation to a specific time."),
     }
 }
+
+export function NineSliceComponent() {
+
+    return {
+        leftWidth: z.number().default(0).optional().describe("The width of the left slice."),
+        rightWidth: z.number().default(0).optional().describe("The width of the right slice."),
+        topHeight: z.number().default(0).optional().describe("The height of the top slice."),
+        bottomHeight: z.number().default(0).optional().describe("The height of the bottom slice."),
+    }
+}
