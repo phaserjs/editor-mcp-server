@@ -1,4 +1,4 @@
-import { BitmapTextComponent, NineSliceComponent, OriginComponent,  SizeComponent, SpineComponent, SpriteComponent, TextComponent, TextureComponent, TileSpriteComponent, TransformComponent } from "./components.js";
+import { BitmapTextComponent, NineSliceComponent, OriginComponent,  SizeComponent, SpineComponent, SpriteComponent, TextComponent, TextureComponent, ThreeSliceComponent, TileSpriteComponent, TransformComponent } from "./components.js";
 import { ParticleEmitterComponent } from "./particle-emitter.js";
 import { EllipseComponent, PolygonComponent, ShapeComponent, TriangleComponent } from "./shape.js";
 import { TilemapLayerComponent } from "./tilemap.js";
@@ -39,6 +39,16 @@ export const GameObjectTypes = [
             ...TextureComponent(),
             ...SizeComponent(),
             ...NineSliceComponent()
+        }
+    },
+    {
+        type: "ThreeSlice",
+        schema: {
+            ...TransformComponent(),
+            ...OriginComponent(),
+            ...TextureComponent(),
+            ...SizeComponent(),
+            ...ThreeSliceComponent()
         }
     },
     {
