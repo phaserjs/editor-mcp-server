@@ -4,13 +4,11 @@ import { ZodRawShape } from "zod";
 import { sendRequestToPhaserEditor } from "./bridge.js";
 
 export let mcpServer = new McpServer({
+    title: "Phaser Editor MCP Server",
     name: "phaser-editor-mcp",
-    version: "1.0.0",
-    capabilities: {
-        tools: {},
-    },
+    version: "1.0.1",
 }, {
-    instructions: "TODO: add instructions",
+    instructions: "The Phaser Editor MCP server allows you to run tools in the Phaser Editor environment. It requires the Phaser Editor to be running.",
 });
 
 export async function startServer() {

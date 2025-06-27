@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { SpineComponent, TextureComponent } from "../schemas/components.js";
+import { TextureComponent } from "../schemas/components.js";
 import { defineTool } from "../utils.js";
 
 export function defineAssetTools() {

@@ -7,6 +7,13 @@ export function SceneId() {
     };
 }
 
+export function VariableComponent() {
+
+    return {
+        scope: z.enum(["LOCAL", "PUBLIC", "METHOD", "CLASS", "NESTED_PREFAB"]).optional().default("LOCAL").describe("The scope of the variable. By default, the editor may generate or not a variable ('local' scope). It depends on if it needs a variable to update the object just after the creation. However, you can force to generate a variable and assign a scope to it, so you can access the object from different parts of the code. When you set a 'public' scope, the editor generates a public field in the class. The same with the `class` scope, but the field is private (in TypeScript). The 'method' scope says to the editor to generate a local variable. The 'nested_prefab' scope is like the public scope but also indicates that the object is a nested prefab."),
+    };
+}
+
 export function TransformComponent() {
 
     return {

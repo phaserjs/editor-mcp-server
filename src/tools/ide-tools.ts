@@ -16,7 +16,7 @@ export function defineIDETools() {
         name: z.string().describe("The name of the scene file. It is not a full name, just the name. The extension will be added automatically."),
     });
 
-    defineTool("ide-save-active-scene", "Save the active scene. The active scene is the one is open and focused and the user is working with. This tool should be used only if the user requests it explicity.", {
+    defineTool("ide-save-active-scene", "Save the active scene. The active scene is the one is open and focused and the user is working with. This tool should be used only if the user requests it explicity, or if you need that the editor generates the code of the scene. It is important to keep both the scene content and the scene's code file in sync if you are working in both files at the same time.", {
         ...SceneId()
     });
 }

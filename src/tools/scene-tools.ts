@@ -2,7 +2,7 @@
 
 import { z } from "zod";
 import { defineTool } from "../utils.js";
-import { SceneId } from "../schemas/components.js";
+import { SceneId, VariableComponent } from "../schemas/components.js";
 import { GameObjectTypes } from "../schemas/gameobjects.js";
 import { PlainObjectTypes } from "../schemas/plainobjects.js";
 import { defineTilemapTools as defineEditableTilemapTools } from "./editable-tilemap-tools.js";
@@ -71,6 +71,7 @@ export function defineSceneTools() {
                 type: z.literal(gameObjectType.type),
                 args: z.object({
                     label: z.string().describe("Label of the object. It is used to name the object in the scene and as the variable name in code."),
+                    ...VariableComponent(),
                     ...gameObjectType.schema as any
                 })
             })
@@ -90,6 +91,7 @@ export function defineSceneTools() {
                 args: z.object({
                     id: z.string().describe(`The \`id\` of the ${type} game object to update.`),
                     label: z.string().optional().describe("Label of the object. It is used to name the object in the scene and as the variable name in code."),
+                    ...VariableComponent(),
                     ...gameObjectType.schema as any
                 })
             })
