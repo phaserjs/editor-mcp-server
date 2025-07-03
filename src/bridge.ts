@@ -6,7 +6,7 @@ export async function sendRequestToPhaserEditor(data: any) {
 
     const options = {
         hostname: "127.0.0.1",
-        port: 1902,
+        port: BRIDGE_PORT,
         path: "/",
         method: "POST",
         headers: {
