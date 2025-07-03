@@ -16,6 +16,12 @@
 	"author": "Phaser Studio Inc.",
 	"license": "ISC",
 	"description": "MCP server for Phaser Editor v5",
+	"keywords": [
+		"phaser",
+		"phaser editor",
+		"mcp",
+		"model-context-protocol"
+	],
 	"dependencies": {
 		"@modelcontextprotocol/sdk": "^1.13.2",
 		"zod": "^3.25.67"
