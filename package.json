@@ -13,9 +13,6 @@
 		"prepare": "npm run build",
 		"inspector": "npx @modelcontextprotocol/inspector node build/index.js"
 	},
-	"files": [
-		"build"
-	],
 	"author": "Phaser Studio Inc.",
 	"license": "ISC",
 	"description": "MCP server for Phaser Editor v5",
