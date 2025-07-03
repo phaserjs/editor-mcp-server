@@ -4,7 +4,7 @@ This [Model Context Protocol (MCP) server](http://modelcontextprotocol.io) provi
 
 ## Installation
 
-This server is available as an NPM package and you can use it in the configuration of MCP clients like Cursor, Claude Desktop, GitHub Copilot, etc...
+This server is available as an NPM package and you can use it in the configuration of MCP hosts like Cursor, Claude Desktop, GitHub Copilot, etc...
 
 This is an example of a [configuration file for Cursor](https://docs.cursor.com/context/mcp):
 
