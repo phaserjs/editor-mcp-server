@@ -13,7 +13,7 @@ This is an example of a [configuration file for Cursor](https://docs.cursor.com/
     "mcpServers": {
         "phaser-editor": {
             "command": "npx",
-            "args": ["@phaser/phaser-editor-mcp-server"]
+            "args": ["@phaserjs/phaser-editor-mcp-server"]
         }
     }
 }
