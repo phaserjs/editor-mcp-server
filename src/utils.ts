@@ -2,11 +2,14 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { ZodRawShape } from "zod";
 import { sendRequestToPhaserEditor } from "./bridge.js";
+import packageJson from "../package.json" with { type: "json" };
+
+const title = `Phaser Editor MCP Server v${packageJson.version}`;
 
 export let mcpServer = new McpServer({
-    title: "Phaser Editor MCP Server",
+    title,
     name: "phaser-editor-mcp",
-    version: "1.0.0",
+    version: packageJson.version,
 }, {
     capabilities: {
         tools: {}
@@ -20,7 +23,7 @@ export async function startServer() {
 
     await mcpServer.connect(transport);
 
-    console.error("Phaser Editor MCP Server running on stdio");
+    console.error(`${title} running on stdio`);
 }
 
 export function defineTool(name: string, description: string, args: ZodRawShape) {
