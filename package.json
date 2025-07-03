@@ -4,7 +4,7 @@
 	"main": "index.js",
 	"type": "module",
 	"bin": {
-		"editor-mcp-server": "./build/index.js"
+		"phaser-editor-mcp-server": "./build/index.js"
 	},
 	"scripts": {
 		"build": "tsc && chmod 755 build/index.js",
