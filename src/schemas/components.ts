@@ -33,6 +33,13 @@ export function OriginComponent(defaultValue = 0.5) {
     };
 }
 
+export function FlipComponent() {
+    return {
+        flipX: z.boolean().default(false).optional().describe("If true, the image is flipped horizontally."),
+        flipY: z.boolean().default(false).optional().describe("If true, the image is flipped vertically."),
+    };
+}
+
 enum Alignment {
     LEFT = 0,
     CENTER = 1,
