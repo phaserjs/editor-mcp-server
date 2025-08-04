@@ -58,9 +58,48 @@ export function AlphaComponent() {
 }
 
 export function AlphaSingleComponent() {
-    
+
     return {
         alpha: z.number().default(1).optional().describe("Alpha of the game object. 0 is fully transparent, 1 is fully opaque."),
+    };
+}
+
+enum BlendModes {
+    SKIP_CHECK,
+    NORMAL,
+    ADD,
+    MULTIPLY,
+    SCREEN,
+    OVERLAY,
+    DARKEN,
+    LIGHTEN,
+    COLOR_DODGE,
+    COLOR_BURN,
+    HARD_LIGHT,
+    SOFT_LIGHT,
+    DIFFERENCE,
+    EXCLUSION,
+    HUE,
+    SATURATION,
+    COLOR,
+    LUMINOSITY,
+    ERASE,
+    SOURCE_IN,
+    SOURCE_OUT,
+    SOURCE_ATOP,
+    DESTINATION_OVER,
+    DESTINATION_IN,
+    DESTINATION_OUT,
+    DESTINATION_ATOP,
+    LIGHTER,
+    COPY,
+    XOR,
+}
+
+export function BlendModeComponent() {
+    
+    return {
+        blendMode: z.nativeEnum(BlendModes).default(BlendModes.NORMAL).optional().describe("The blend mode of the game object. It defines how the game object is blended with the background. The default value is `NORMAL`."),
     };
 }
 
