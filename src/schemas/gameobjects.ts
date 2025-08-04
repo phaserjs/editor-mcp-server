@@ -1,4 +1,4 @@
-import { BitmapTextComponent, FlipComponent, NineSliceComponent, OriginComponent,  SizeComponent, SpineComponent, SpriteComponent, TextComponent, TextureComponent, ThreeSliceComponent, TileSpriteComponent, TransformComponent } from "./components.js";
+import { BitmapTextComponent, FlipComponent, NineSliceComponent, OriginComponent,  SizeComponent, SpineComponent, SpriteComponent, TextComponent, TextureComponent, ThreeSliceComponent, TileSpriteComponent, TransformComponent, VisibleComponent } from "./components.js";
 import { ParticleEmitterComponent } from "./particle-emitter.js";
 import { EllipseComponent, PolygonComponent, ShapeComponent, TriangleComponent } from "./shape.js";
 import { TilemapLayerComponent } from "./tilemap.js";
@@ -11,6 +11,7 @@ export const GameObjectTypes = [
             ...TransformComponent(),
             ...OriginComponent(),
             ...FlipComponent(),
+            ...VisibleComponent(),
             ...TextureComponent(),
         }
     },
@@ -20,6 +21,7 @@ export const GameObjectTypes = [
             ...TransformComponent(),
             ...OriginComponent(),
             ...FlipComponent(),
+            ...VisibleComponent(),
             ...TextureComponent(),
             ...SpriteComponent()
         }
@@ -30,6 +32,7 @@ export const GameObjectTypes = [
             ...TransformComponent(),
             ...OriginComponent(),
             ...FlipComponent(),
+            ...VisibleComponent(),
             ...TextureComponent(),
             ...TileSpriteComponent()
         }
@@ -39,6 +42,7 @@ export const GameObjectTypes = [
         schema: {
             ...TransformComponent(),
             ...OriginComponent(),
+            ...VisibleComponent(),
             ...TextureComponent(),
             ...SizeComponent(),
             ...NineSliceComponent()
@@ -49,6 +53,7 @@ export const GameObjectTypes = [
         schema: {
             ...TransformComponent(),
             ...OriginComponent(),
+            ...VisibleComponent(),
             ...TextureComponent(),
             ...SizeComponent(),
             ...ThreeSliceComponent()
@@ -59,6 +64,7 @@ export const GameObjectTypes = [
         schema: {
             ...TransformComponent(),
             ...OriginComponent(),
+            ...VisibleComponent(),
             ...FlipComponent(),
             ...TextComponent(),
         }
@@ -66,12 +72,14 @@ export const GameObjectTypes = [
     {
         type: "Layer",
         schema: {
+            ...VisibleComponent(),
             ...TransformComponent()
         }
     },
     {
         type: "Container",
         schema: {
+            ...VisibleComponent(),
             ...TransformComponent()
         }
     },
@@ -80,6 +88,7 @@ export const GameObjectTypes = [
         schema: {
             ...TransformComponent(),
             ...OriginComponent(0),
+            ...VisibleComponent(),
             ...BitmapTextComponent(),
         }
     },
@@ -88,6 +97,7 @@ export const GameObjectTypes = [
         schema: {
             ...TransformComponent(),
             ...OriginComponent(),
+            ...VisibleComponent(),
             ...ShapeComponent(),
             ...SizeComponent()
         }
@@ -97,6 +107,7 @@ export const GameObjectTypes = [
         schema: {
             ...TransformComponent(),
             ...OriginComponent(),
+            ...VisibleComponent(),
             ...ShapeComponent(),
             ...SizeComponent(),
             ...EllipseComponent()
@@ -107,6 +118,7 @@ export const GameObjectTypes = [
         schema: {
             ...TransformComponent(),
             ...OriginComponent(),
+            ...VisibleComponent(),
             ...ShapeComponent(),
             ...TriangleComponent()
         }
@@ -116,6 +128,7 @@ export const GameObjectTypes = [
         schema: {
             ...TransformComponent(),
             ...OriginComponent(),
+            ...VisibleComponent(),
             ...ShapeComponent(),
             ...PolygonComponent()
         }
@@ -125,6 +138,7 @@ export const GameObjectTypes = [
         schema: {
             ...TransformComponent(),
             ...OriginComponent(),
+            ...VisibleComponent(),
             ...ParticleEmitterComponent()
         }
     },
@@ -133,6 +147,7 @@ export const GameObjectTypes = [
         schema: {
             ...TransformComponent(),
             ...OriginComponent(),
+            ...VisibleComponent(),
             ...SpineComponent()
         }
     },
@@ -140,6 +155,7 @@ export const GameObjectTypes = [
         type: "TilemapLayer",
         schema: {
             ...TransformComponent(),
+            ...VisibleComponent(),
             ...TilemapLayerComponent()
         }
     },
@@ -147,7 +163,8 @@ export const GameObjectTypes = [
         type: "EditableTilemapLayer",
         updateOnly: true,
         schema: {
-            ...TransformComponent()
+            ...TransformComponent(),
+            ...VisibleComponent(),
         }
     }
 ];

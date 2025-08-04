@@ -40,6 +40,12 @@ export function FlipComponent() {
     };
 }
 
+export function VisibleComponent() {
+    return {
+        visible: z.boolean().default(true).optional().describe("If true, the game object is visible in the scene.")
+    };
+}
+
 enum Alignment {
     LEFT = 0,
     CENTER = 1,
