@@ -46,6 +46,24 @@ export function VisibleComponent() {
     };
 }
 
+export function AlphaComponent() {
+
+    return {
+        alpha: z.number().default(1).optional().describe("Alpha of the game object. 0 is fully transparent, 1 is fully opaque."),
+        alphaTopLeft: z.number().default(1).optional().describe("Alpha of the top-left corner of the game object. 0 is fully transparent, 1 is fully opaque."),
+        alphaTopRight: z.number().default(1).optional().describe("Alpha of the top-right corner of the game object. 0 is fully transparent, 1 is fully opaque."),
+        alphaBottomLeft: z.number().default(1).optional().describe("Alpha of the bottom-left corner of the game object. 0 is fully transparent, 1 is fully opaque."),
+        alphaBottomRight: z.number().default(1).optional().describe("Alpha of the bottom-right corner of the game object. 0 is fully transparent, 1 is fully opaque."),
+    };
+}
+
+export function AlphaSingleComponent() {
+    
+    return {
+        alpha: z.number().default(1).optional().describe("Alpha of the game object. 0 is fully transparent, 1 is fully opaque."),
+    };
+}
+
 enum Alignment {
     LEFT = 0,
     CENTER = 1,
