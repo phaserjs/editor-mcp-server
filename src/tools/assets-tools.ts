@@ -4,9 +4,13 @@ import { defineTool } from "../utils.js";
 
 export function defineAssetTools() {
 
-    defineTool("assets-get-available-textures", "Get all available textures in the project.", {});
+    defineTool("assets-get-available-textures", "Get all available textures in the project. It includes the name of the texture and the size.", {});
 
-    defineTool("assets-get-texture-binary", "Get the binary data of a texture.", {
+    defineTool("assets-get-texture-binary", "Get the size of the texture. If you need to get the real size of the object inside the texture (without the transparent margin), then you can use the `assets-get-texture-content-bounding-box` tool.", {
+        ...TextureComponent()
+    });
+
+     defineTool("assets-get-texture-size", "Get the binary data of a texture.", {
         ...TextureComponent()
     });
 
@@ -20,7 +24,7 @@ export function defineAssetTools() {
         key: z.string().describe("The key of the bitmap font."),
     });
 
-    defineTool("assets-get-texture-content-bounding-box", "Get the bounding box of the content of the given texture. Many textures has transparent padding but we need the exact offset and size of the content/object of the texture to place them in the right positions in the scene. Like when placing different objects one next to the other, with touching edges.", {
+    defineTool("assets-get-texture-content-bounding-box", "Get the bounding box of the content of the given texture. Many textures has transparent padding but we need the exact offset and size of the content/object of the texture to place them in the right positions in the scene. Like when placing different objects one next to the other, with touching edges. If you need to know the size of the whole image, use the `assets-get-texture-size` tool.", {
         ...TextureComponent()
     });
 
