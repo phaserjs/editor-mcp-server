@@ -6,6 +6,7 @@ import { SceneId, VariableComponent } from "../schemas/components.js";
 import { GameObjectTypes } from "../schemas/gameobjects.js";
 import { PlainObjectTypes } from "../schemas/plainobjects.js";
 import { defineTilemapTools as defineEditableTilemapTools } from "./editable-tilemap-tools.js";
+import { defineFilterTools } from "../schemas/filters.js";
 
 export function defineSceneTools() {
 
@@ -54,6 +55,10 @@ export function defineSceneTools() {
     // Editable tilemap tools
 
     defineEditableTilemapTools();
+
+    // filter tools
+
+    defineFilterTools();
 
     // Plain objects tools
 
