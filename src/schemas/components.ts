@@ -64,7 +64,7 @@ export function AlphaSingleComponent() {
     };
 }
 
-enum BlendModes {
+export enum BlendModes {
     SKIP_CHECK,
     NORMAL,
     ADD,
@@ -96,10 +96,10 @@ enum BlendModes {
     XOR,
 }
 
-export function BlendModeComponent() {
+export function BlendModeComponent(defaultValue = BlendModes.NORMAL) {
 
     return {
-        blendMode: z.nativeEnum(BlendModes).default(BlendModes.NORMAL).optional().describe("The blend mode of the game object. It defines how the game object is blended with the background. The default value is `NORMAL`."),
+        blendMode: z.nativeEnum(BlendModes).default(defaultValue).optional().describe("The blend mode of the game object. It defines how the game object is blended with the background. The default value is `NORMAL`."),
     };
 }
 

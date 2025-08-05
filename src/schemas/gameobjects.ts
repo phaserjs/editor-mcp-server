@@ -1,4 +1,4 @@
-import { AlphaComponent, AlphaSingleComponent, BitmapTextComponent, BlendModeComponent, FlipComponent, NineSliceComponent, OriginComponent, SingleTintComponent, SizeComponent, SpineComponent, SpriteComponent, TextComponent, TextureComponent, ThreeSliceComponent, TileSpriteComponent, TintComponent, TransformComponent, VisibleComponent } from "./components.js";
+import { AlphaComponent, AlphaSingleComponent, BitmapTextComponent, BlendModeComponent, BlendModes, FlipComponent, NineSliceComponent, OriginComponent, SingleTintComponent, SizeComponent, SpineComponent, SpriteComponent, TextComponent, TextureComponent, ThreeSliceComponent, TileSpriteComponent, TintComponent, TransformComponent, VisibleComponent } from "./components.js";
 import { ParticleEmitterComponent } from "./particle-emitter.js";
 import { EllipseComponent, PolygonComponent, ShapeComponent, TriangleComponent } from "./shape.js";
 import { TilemapLayerComponent } from "./tilemap.js";
@@ -92,6 +92,7 @@ export const GameObjectTypes = [
         schema: {
             ...VisibleComponent(),
             ...AlphaSingleComponent(),
+            ...BlendModeComponent(BlendModes.SKIP_CHECK),
             ...TransformComponent()
         }
     },
@@ -100,7 +101,7 @@ export const GameObjectTypes = [
         schema: {
             ...VisibleComponent(),
             ...AlphaSingleComponent(),
-            ...BlendModeComponent(),
+            ...BlendModeComponent(BlendModes.SKIP_CHECK),
             ...TransformComponent()
         }
     },
