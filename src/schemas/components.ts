@@ -97,10 +97,28 @@ enum BlendModes {
 }
 
 export function BlendModeComponent() {
-    
+
     return {
         blendMode: z.nativeEnum(BlendModes).default(BlendModes.NORMAL).optional().describe("The blend mode of the game object. It defines how the game object is blended with the background. The default value is `NORMAL`."),
     };
+}
+
+export function TintComponent() {
+
+    return {
+        tintFill: z.boolean().default(false).optional().describe("The tint fill mode. `false` = An additive tint (the default), where vertices colors are blended with the texture.\n`true` = A fill tint, where the vertices colors replace the texture, but respects texture alpha."),
+        tintTopLeft: z.string().default("#ffffff").optional().describe("The tint value being applied to the top-left vertice of the Game Object. This value is interpolated from the corner to the center of the Game Object. The value should be set as a hex number, i.e. 0xff0000 for red, or 0xff00ff for purple."),
+        tintTopRight: z.string().default("#ffffff").optional().describe("The tint value being applied to the top-right vertice of the Game Object. This value is interpolated from the corner to the center of the Game Object. The value should be set as a hex number, i.e. 0xff0000 for red, or 0xff00ff for purple."),
+        tintBottomLeft: z.string().default("#ffffff").optional().describe("The tint value being applied to the bottom-left vertice of the Game Object. This value is interpolated from the corner to the center of the Game Object. The value should be set as a hex number, i.e. 0xff0000 for red, or 0xff00ff for purple."),
+        tintBottomRight: z.string().default("#ffffff").optional().describe("The tint value being applied to the bottom-right vertice of the Game Object. This value is interpolated from the corner to the center of the Game Object. The value should be set as a hex number, i.e. 0xff0000 for red, or 0xff00ff for purple."),
+    };
+}
+
+export function SingleTintComponent() {
+    return {
+        tintFill: z.boolean().default(false).optional().describe("The tint fill mode. `false` = An additive tint (the default), where vertices colors are blended with the texture.\n`true` = A fill tint, where the vertices colors replace the texture, but respects texture alpha."),
+        tint: z.string().default("#ffffff").optional().describe("The tint value being applied to the top-left vertice of the Game Object. This value is interpolated from the corner to the center of the Game Object. The value should be set as a hex number, i.e. 0xff0000 for red, or 0xff00ff for purple."),
+    }
 }
 
 enum Alignment {

@@ -1,4 +1,4 @@
-import { AlphaComponent, AlphaSingleComponent, BitmapTextComponent, BlendModeComponent, FlipComponent, NineSliceComponent, OriginComponent, SizeComponent, SpineComponent, SpriteComponent, TextComponent, TextureComponent, ThreeSliceComponent, TileSpriteComponent, TransformComponent, VisibleComponent } from "./components.js";
+import { AlphaComponent, AlphaSingleComponent, BitmapTextComponent, BlendModeComponent, FlipComponent, NineSliceComponent, OriginComponent, SingleTintComponent, SizeComponent, SpineComponent, SpriteComponent, TextComponent, TextureComponent, ThreeSliceComponent, TileSpriteComponent, TintComponent, TransformComponent, VisibleComponent } from "./components.js";
 import { ParticleEmitterComponent } from "./particle-emitter.js";
 import { EllipseComponent, PolygonComponent, ShapeComponent, TriangleComponent } from "./shape.js";
 import { TilemapLayerComponent } from "./tilemap.js";
@@ -14,6 +14,7 @@ export const GameObjectTypes = [
             ...VisibleComponent(),
             ...AlphaComponent(),
             ...BlendModeComponent(),
+            ...TintComponent(),
             ...TextureComponent(),
         }
     },
@@ -26,6 +27,7 @@ export const GameObjectTypes = [
             ...VisibleComponent(),
             ...AlphaComponent(),
             ...BlendModeComponent(),
+            ...TintComponent(),
             ...TextureComponent(),
             ...SpriteComponent()
         }
@@ -39,6 +41,7 @@ export const GameObjectTypes = [
             ...VisibleComponent(),
             ...AlphaComponent(),
             ...BlendModeComponent(),
+            ...TintComponent(),
             ...TextureComponent(),
             ...TileSpriteComponent()
         }
@@ -52,6 +55,7 @@ export const GameObjectTypes = [
             ...AlphaSingleComponent(),
             ...BlendModeComponent(),
             ...TextureComponent(),
+            ...SingleTintComponent(),
             ...SizeComponent(),
             ...NineSliceComponent()
         }
@@ -64,6 +68,7 @@ export const GameObjectTypes = [
             ...VisibleComponent(),
             ...AlphaSingleComponent(),
             ...BlendModeComponent(),
+            ...SingleTintComponent(),
             ...TextureComponent(),
             ...SizeComponent(),
             ...ThreeSliceComponent()
@@ -78,6 +83,7 @@ export const GameObjectTypes = [
             ...AlphaComponent(),
             ...FlipComponent(),
             ...BlendModeComponent(),
+            ...TintComponent(),
             ...TextComponent(),
         }
     },
@@ -106,6 +112,7 @@ export const GameObjectTypes = [
             ...VisibleComponent(),
             ...AlphaComponent(),
             ...BlendModeComponent(),
+            ...TintComponent(),
             ...BitmapTextComponent(),
         }
     },
