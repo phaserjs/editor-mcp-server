@@ -25,12 +25,33 @@ function GlowComponent() {
     };
 }
 
+function ShadowComponent() {
+
+    return {
+        x: z.number().default(0).optional().describe("The horizontal offset of the shadow effect."),
+        y: z.number().default(0).optional().describe("The vertical offset of the shadow effect."),
+        decay: z.number().default(0.1).optional().describe("The amount of decay for the shadow effect"),
+        power: z.number().default(1).optional().describe("The power of the shadow effect."),
+        color: z.string().default("#000000").optional().describe("The color of the shadow."),
+        samples: z.number().
+            default(6).optional().describe("The number of samples that the shadow effect will run for. This should be an integer with a minimum value of 1 and a maximum of 12."),
+        intensity: z.number().default(1).optional().describe("The intensity of the shadow effect.")
+    };
+}
+
 const FilterTypes = [
     {
         type: "Glow",
         schema: {
             ...FilterComponent(),
             ...GlowComponent()
+        }
+    },
+    {
+        type: "Shadow",
+        schema: {
+            ...FilterComponent(),
+            ...ShadowComponent()
         }
     }
 ];
