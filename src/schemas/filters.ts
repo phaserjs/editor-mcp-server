@@ -5,9 +5,9 @@ import { defineTool } from "../utils.js";
 function FilterComponent() {
 
     return {
-        paddingLeft: z.number().default(0).optional().describe("The padding to apply to the left side of the filter. This is useful for filters that need extra space on the left side."),
+        paddingLeft: z.number().default(0).optional().describe("The padding to apply to the left side of the filter. This is useful for filters that need extra space on the left side. Often it uses negative values to create a space for the filter effect."),
         paddingRight: z.number().default(0).optional().describe("The padding to apply to the right side of the filter. This is useful for filters that need extra space on the right side."),
-        paddingTop: z.number().default(0).optional().describe("The padding to apply to the top side of the filter. This is useful for filters that need extra space on the top side."),
+        paddingTop: z.number().default(0).optional().describe("The padding to apply to the top side of the filter. This is useful for filters that need extra space on the top side. Often it uses negative values to create a space for the filter effect."),
         paddingBottom: z.number().default(0).optional().describe("The padding to apply to the bottom side of the filter. This is useful for filters that need extra space on the bottom side."),
     }
 }
