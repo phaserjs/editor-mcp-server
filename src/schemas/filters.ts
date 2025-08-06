@@ -39,6 +39,13 @@ function ShadowComponent() {
     };
 }
 
+function PixelateComponent() {
+
+    return {
+        amount: z.number().default(1).optional().describe("The amount of pixelation to apply.\n\nThe size of the pixels is equal to 2 + the amount."),
+    };
+}   
+
 const FilterTypes = [
     {
         type: "Glow",
@@ -52,6 +59,13 @@ const FilterTypes = [
         schema: {
             ...FilterComponent(),
             ...ShadowComponent()
+        }
+    },
+    {
+        type: "Pixelate",
+        schema: {
+            ...FilterComponent(),
+            ...PixelateComponent()
         }
     }
 ];
