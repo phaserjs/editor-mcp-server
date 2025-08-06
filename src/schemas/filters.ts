@@ -1,5 +1,5 @@
 import z from "zod";
-import { SceneId, VariableComponent } from "./components.js";
+import { SceneId, TextureComponent, VariableComponent } from "./components.js";
 import { defineTool } from "../utils.js";
 
 function FilterComponent() {
@@ -64,6 +64,17 @@ function BarrelComponent() {
     };
 }
 
+function DisplacementComponent() {
+
+    return {
+        x: z.number().default(0.005).optional().describe("The amount of horizontal displacement to apply.\nThe maximum horizontal displacement in pixels is `x` multiplied by 0.5 times the width of the camera rendering the filter."),
+        y: z.number().default(0.005).optional().describe("The amount of vertical displacement to apply.\nThe maximum vertical displacement in pixels is `y` multiplied by 0.5 times the height of the camera rendering the filter."),
+        texture: z.object({
+            key: z.string().describe("The texture to be used for the displacement effect. You can only use a whole texture, not a frame from a texture atlas or sprite sheet.")
+        }),
+    };
+}
+
 const FilterTypes = [
     {
         type: "Glow",
@@ -99,6 +110,14 @@ const FilterTypes = [
         schema: {
             ...FilterComponent(),
             ...BarrelComponent()
+        }
+    }
+    ,
+    {
+        type: "Displacement",
+        schema: {
+            ...FilterComponent(),
+            ...DisplacementComponent()
         }
     }
 ];
