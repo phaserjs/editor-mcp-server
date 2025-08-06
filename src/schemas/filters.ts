@@ -44,7 +44,18 @@ function PixelateComponent() {
     return {
         amount: z.number().default(1).optional().describe("The amount of pixelation to apply.\n\nThe size of the pixels is equal to 2 + the amount."),
     };
-}   
+}
+
+function BlurComponent() {
+
+    return {
+        x: z.number().default(2).optional().describe("The horizontal offset of the blur effect."),
+        y: z.number().default(2).optional().describe("The vertical offset of the blur effect."),
+        strength: z.number().default(1).optional().describe("The strength of the blur effect."),
+        color: z.string().default("#ffffff").optional().describe("The color of the blur as a hex string."),
+        steps: z.number().default(4).optional().describe("The number of steps to run the Blur effect for. This value should always be an integer.\n\nThe higher the value, the smoother the blur,\nbut at the cost of exponentially more gl operations. Keep this to the lowest possible number you can have it, while\nstill looking correct for your game."),         
+    };
+}
 
 const FilterTypes = [
     {
@@ -66,6 +77,13 @@ const FilterTypes = [
         schema: {
             ...FilterComponent(),
             ...PixelateComponent()
+        }
+    },
+    {
+        type: "Blur",
+        schema: {
+            ...FilterComponent(),
+            ...BlurComponent()
         }
     }
 ];
