@@ -9,7 +9,6 @@ function FilterComponent() {
         paddingRight: z.number().default(0).optional().describe("The padding to apply to the right side of the filter. This is useful for filters that need extra space on the right side."),
         paddingTop: z.number().default(0).optional().describe("The padding to apply to the top side of the filter. This is useful for filters that need extra space on the top side."),
         paddingBottom: z.number().default(0).optional().describe("The padding to apply to the bottom side of the filter. This is useful for filters that need extra space on the bottom side."),
-        internal: z.boolean().default(true).optional().describe("If add it to the internal filter list of the game object. The internal filters are rendered in the space of the object. You should set padding values to make space for the filter effect. If set to `false`, the filter is added to the scene's filter list and is rendered in the space of the whole scene."),
     }
 }
 
@@ -45,6 +44,7 @@ export function defineFilterTools() {
             args: z.object({
                 parentId: z.string().describe(`The \`id\` of the game object to add the ${filterType.type} filter to.`),
                 label: z.string().describe("Label of the filter. It is used to name the filter in the scene and as the variable name in code."),
+                internal: z.boolean().default(true).optional().describe("If add it to the internal filter list of the game object. The internal filters are rendered in the space of the object. You should set padding values to make space for the filter effect. If set to `false`, the filter is added to the scene's filter list and is rendered in the space of the whole scene."),
                 ...VariableComponent(),
                 ...filterType.schema as any
             })
@@ -73,5 +73,16 @@ export function defineFilterTools() {
     defineTool("scene-update-game-object-filters", "Update multiple filters of a game object.", {
         ...SceneId(),
         objects: z.array(z.discriminatedUnion("type", unionElements_update as any)).describe("The filter objects to update.")
+    });
+
+    defineTool("scene-delete-game-object-filters", "Delete the given filters from the scene.", {
+        ...SceneId(),
+        filterIds: z.array(z.string()).describe("The `id`s of the filters to delete.")
+    });
+
+    defineTool("scene-update-game-object-filter-list", "Update the list where the filter is placed. A filter could be on the internal or external filter list. The internal filters are rendered in the game object space. The external filters are rendered in the camera space.", {
+        ...SceneId(),
+        filterId: z.string().describe("The `id` of the filter to update."),
+        internal: z.boolean().describe("If `true`, the filter is added to the internal filter list of the game object. If `false`, the filter is added to the scene's filter list.")
     });
 }

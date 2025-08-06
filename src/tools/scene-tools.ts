@@ -62,7 +62,7 @@ export function defineSceneTools() {
 
     // Plain objects tools
 
-    defineTool("scene-delete-plain-objects", "Delete the given plain objects from the scene.", {
+    defineTool("scene-delete-plain-objects", "Delete the given plain objects from the scene. Plain objects are Tilemap, Key, Collider...", {
         ...SceneId(),
         objectIds: z.array(z.string()).describe("The `id`s of the plain objects to delete.")
     });
