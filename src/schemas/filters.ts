@@ -100,6 +100,20 @@ function FilterBlendComponent() {
     };
 }
 
+function MaskComponent() {
+
+    return {
+        invert: z.boolean().default(false).optional().describe("Whether to invert the mask.\nAn inverted mask switches what it hides and what it shows."),
+    };
+}
+
+function ObjectMaskComponent() {
+    
+    return {
+        maskObjectId: z.string().optional().describe("The `id` of the game object to use as a mask for the filter."),
+    };
+}
+
 const FilterTypes = [
     {
         type: "Glow",
@@ -155,6 +169,14 @@ const FilterTypes = [
         schema: {
             ...FilterComponent(),
             ...FilterBlendComponent()
+        }
+    },
+    {
+        type: "ObjectMask",
+        schema: {
+            ...FilterComponent(),
+            ...MaskComponent(),
+            ...ObjectMaskComponent()
         }
     }
 ];
