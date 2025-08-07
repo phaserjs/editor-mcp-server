@@ -1,5 +1,5 @@
 import z from "zod";
-import { SceneId, TextureComponent, VariableComponent } from "./components.js";
+import { BlendModeComponent, BlendModes, SceneId, TextureComponent, VariableComponent } from "./components.js";
 import { defineTool } from "../utils.js";
 
 function FilterComponent() {
@@ -88,6 +88,18 @@ function BokehComponent() {
     };
 }
 
+function FilterBlendComponent() {
+
+    return {
+        blendMode: z.nativeEnum(BlendModes).default(BlendModes.NORMAL).optional().describe("The blend mode of the game object. It defines how the game object is blended with the background. The default value is `NORMAL`."),
+        amount: z.number().default(1).optional().describe("The amount of the blend effect to apply to the view. At 0, the original image is preserved. At 1, the blend texture is fully applied."),
+        color: z.string().default("#ffffff").optional().describe("The color of the blend effect. The default value is #ffffff, which means no color change."),
+        texture: z.object({
+            key: z.string().describe("The texture to be used for the blend effect. You can only use a whole texture, not a frame from a texture atlas or sprite sheet.")
+        }).optional(),
+    };
+}
+
 const FilterTypes = [
     {
         type: "Glow",
@@ -116,29 +128,33 @@ const FilterTypes = [
             ...FilterComponent(),
             ...BlurComponent()
         }
-    }
-    ,
+    },
     {
         type: "Barrel",
         schema: {
             ...FilterComponent(),
             ...BarrelComponent()
         }
-    }
-    ,
+    },
     {
         type: "Displacement",
         schema: {
             ...FilterComponent(),
             ...DisplacementComponent()
         }
-    }
-    ,
+    },
     {
         type: "Bokeh",
         schema: {
             ...FilterComponent(),
             ...BokehComponent()
+        }
+    },
+    {
+        type: "Blend",
+        schema: {
+            ...FilterComponent(),
+            ...FilterBlendComponent()
         }
     }
 ];
