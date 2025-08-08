@@ -123,6 +123,46 @@ function ThresholdComponent() {
     };
 }
 
+const ColorMatrixOperationType = [
+    "NOP",
+    "SET_MATRIX",
+    "SET_BRIGHTNESS",
+    "SET_SATURATE",
+    "SET_HUE",
+    "SET_GRAYSCALE",
+    "SET_CONTRAST",
+    "SET_NIGHT"
+] as const;
+
+const ColorMatrixPreset = [
+    "BLACK_WHITE",
+    "NEGATIVE",
+    "DESATURATE_LUMINANCE",
+    "SEPIA",
+    "LSD",
+    "BROWN",
+    "VINTAGE",
+    "KODACHROME",
+    "TECHNICOLOR",
+    "POLAROID",
+    "SHIFT_BGR"
+] as const;
+
+function ColorMatrixComponent() {
+
+    return {
+        operationType: z.enum(ColorMatrixOperationType).default("NOP").optional().describe("The type of operation to perform."),
+        alpha: z.number().default(1).optional().describe("The value that determines how much of the original color is used when mixing the colors. A value between 0 (all original) and 1 (all final). Used when the `operationType` is not `NOP`."),
+        matrixPreset: z.enum(ColorMatrixPreset).optional().describe("The matrix preset. Used when the `operationType` is `SET_MATRIX`."),
+        brightness: z.number().default(0).optional().describe("The amount of brightness to apply to this ColorMatrix. Between 0 (black) and 1. Used when the `operationType` is `SET_BRIGHTNESS`."),
+        saturate: z.number().default(0).optional().describe("The amount of saturation to apply to this ColorMatrix. Used when the `operationType` is `SET_SATURATE`."),
+        hueRotation: z.number().default(0).optional().describe("The amount of hue rotation to apply to this ColorMatrix, in degrees. Used when the `operationType` is `SET_HUE`."),
+        grayscale: z.number().default(1).optional().describe("The grayscale scale (0 is black). Used when the `operationType` is `SET_GRAYSCALE`."),
+        contrast: z.number().default(0).optional().describe("The amount of contrast to apply to this ColorMatrix. Used when the `operationType` is `SET_CONTRAST`."),
+        nightIntensity: z.number().default(0.1).optional().describe("The intensity of this effect. Used when the `operationType` is `SET_NIGHT`."),
+    };
+}
+
 const FilterTypes = [
     {
         type: "Glow",
@@ -201,6 +241,13 @@ const FilterTypes = [
         schema: {
             ...FilterComponent(),
             ...ThresholdComponent()
+        }
+    },
+    {
+        type: "ColorMatrix",
+        schema: {
+            ...FilterComponent(),
+            ...ColorMatrixComponent()
         }
     }
 ];
