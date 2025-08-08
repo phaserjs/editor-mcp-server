@@ -202,7 +202,7 @@ export function defineFilterTools() {
                 ...VariableComponent(),
                 ...filterType.schema as any
             })
-        })
+        });
     });
 
     defineTool("scene-add-game-object-filters", "Add multiple filters to parent game objects in the scene", {
