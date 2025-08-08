@@ -108,9 +108,18 @@ function MaskFilterComponent() {
 }
 
 function ObjectMaskFilterComponent() {
-    
+
     return {
         maskObjectId: z.string().optional().describe("The `id` of the game object to use as a mask for the filter."),
+    };
+}
+
+function ThresholdComponent() {
+
+    return {
+        edge1: z.array(z.number()).length(4).default([0.5, 0.5, 0.5, 0.5]).optional().describe("The first edge of the threshold.\nThis contains the lowest value for each channel."),
+        edge2: z.array(z.number()).length(4).default([0.5, 0.5, 0.5, 0.5]).optional().describe("The second edge of the threshold.\nThis contains the highest value for each channel.\nIf it is the same as the first edge, the threshold is a single value."),
+        invert: z.array(z.number()).length(4).default([0, 0, 0, 0]).optional().describe("Whether each channel is inverted."),
     };
 }
 
@@ -185,6 +194,13 @@ const FilterTypes = [
             ...FilterComponent(),
             ...MaskFilterComponent(),
             ...TextureComponent(),
+        }
+    },
+    {
+        type: "Threshold",
+        schema: {
+            ...FilterComponent(),
+            ...ThresholdComponent()
         }
     }
 ];
