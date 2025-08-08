@@ -12,7 +12,7 @@ function FilterComponent() {
     }
 }
 
-function GlowComponent() {
+function GlowFilterComponent() {
 
     return {
         color: z.string().default("#ffffff").optional().describe("The color of the glow effect. This value should be set as a hex number, i.e. 0xff0000 for red, or 0xff00ff for purple."),
@@ -25,7 +25,7 @@ function GlowComponent() {
     };
 }
 
-function ShadowComponent() {
+function ShadowFilterComponent() {
 
     return {
         x: z.number().default(0).optional().describe("The horizontal offset of the shadow effect."),
@@ -39,14 +39,14 @@ function ShadowComponent() {
     };
 }
 
-function PixelateComponent() {
+function PixelateFilterComponent() {
 
     return {
         amount: z.number().default(1).optional().describe("The amount of pixelation to apply. The size of the pixels is equal to 2 + the amount."),
     };
 }
 
-function BlurComponent() {
+function BlurFilterComponent() {
 
     return {
         x: z.number().default(2).optional().describe("The horizontal offset of the blur effect."),
@@ -57,14 +57,14 @@ function BlurComponent() {
     };
 }
 
-function BarrelComponent() {
+function BarrelFilterComponent() {
 
     return {
         amount: z.number().default(1).optional().describe("The amount of distortion applied to the barrel effect. Typically keep this within the range 1 (no distortion) to +- 1."),
     };
 }
 
-function DisplacementComponent() {
+function DisplacementFilterComponent() {
 
     return {
         x: z.number().default(0.005).optional().describe("The amount of horizontal displacement to apply.\nThe maximum horizontal displacement in pixels is `x` multiplied by 0.5 times the width of the camera rendering the filter."),
@@ -75,7 +75,7 @@ function DisplacementComponent() {
     };
 }
 
-function BokehComponent() {
+function BokehFilterComponent() {
 
     return {
         radius: z.number().default(0.5).optional().describe("The radius of the bokeh effect. This is a float value, where a radius of 0 will result in no effect being applied,\nand a radius of 1 will result in a strong bokeh. However, you can exceed this value\nfor even stronger effects."),
@@ -88,7 +88,7 @@ function BokehComponent() {
     };
 }
 
-function FilterBlendComponent() {
+function BlendFilterComponent() {
 
     return {
         blendMode: z.nativeEnum(BlendModes).default(BlendModes.NORMAL).optional().describe("The blend mode of the game object. It defines how the game object is blended with the background. The default value is `NORMAL`."),
@@ -100,14 +100,14 @@ function FilterBlendComponent() {
     };
 }
 
-function MaskComponent() {
+function MaskFilterComponent() {
 
     return {
         invert: z.boolean().default(false).optional().describe("Whether to invert the mask.\nAn inverted mask switches what it hides and what it shows."),
     };
 }
 
-function ObjectMaskComponent() {
+function ObjectMaskFilterComponent() {
     
     return {
         maskObjectId: z.string().optional().describe("The `id` of the game object to use as a mask for the filter."),
@@ -119,64 +119,72 @@ const FilterTypes = [
         type: "Glow",
         schema: {
             ...FilterComponent(),
-            ...GlowComponent()
+            ...GlowFilterComponent()
         }
     },
     {
         type: "Shadow",
         schema: {
             ...FilterComponent(),
-            ...ShadowComponent()
+            ...ShadowFilterComponent()
         }
     },
     {
         type: "Pixelate",
         schema: {
             ...FilterComponent(),
-            ...PixelateComponent()
+            ...PixelateFilterComponent()
         }
     },
     {
         type: "Blur",
         schema: {
             ...FilterComponent(),
-            ...BlurComponent()
+            ...BlurFilterComponent()
         }
     },
     {
         type: "Barrel",
         schema: {
             ...FilterComponent(),
-            ...BarrelComponent()
+            ...BarrelFilterComponent()
         }
     },
     {
         type: "Displacement",
         schema: {
             ...FilterComponent(),
-            ...DisplacementComponent()
+            ...DisplacementFilterComponent()
         }
     },
     {
         type: "Bokeh",
         schema: {
             ...FilterComponent(),
-            ...BokehComponent()
+            ...BokehFilterComponent()
         }
     },
     {
         type: "Blend",
         schema: {
             ...FilterComponent(),
-            ...FilterBlendComponent()
+            ...BlendFilterComponent()
         }
     },
     {
         type: "ObjectMask",
         schema: {
             ...FilterComponent(),
-            ...MaskComponent(),
-            ...ObjectMaskComponent()
+            ...MaskFilterComponent(),
+            ...ObjectMaskFilterComponent()
+        }
+    },
+    {
+        type: "TextureMask",
+        schema: {
+            ...FilterComponent(),
+            ...MaskFilterComponent(),
+            ...TextureComponent(),
         }
     }
 ];
