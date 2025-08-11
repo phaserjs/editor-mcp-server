@@ -1,4 +1,4 @@
-import { AlphaComponent, AlphaSingleComponent, BitmapTextComponent, BlendModeComponent, BlendModes, FlipComponent, NineSliceComponent, OriginComponent, SingleTintComponent, SizeComponent, SpineComponent, SpriteComponent, TextComponent, TextureComponent, ThreeSliceComponent, TileSpriteComponent, TintComponent, TransformComponent, VisibleComponent } from "./components.js";
+import { AlphaComponent, AlphaSingleComponent, BitmapTextComponent, BlendModeComponent, BlendModes, FlipComponent, HitAreaComponent, NineSliceComponent, OriginComponent, SingleTintComponent, SizeComponent, SpineComponent, SpriteComponent, TextComponent, TextureComponent, ThreeSliceComponent, TileSpriteComponent, TintComponent, TransformComponent, VisibleComponent } from "./components.js";
 import { ParticleEmitterComponent } from "./particle-emitter.js";
 import { EllipseComponent, PolygonComponent, ShapeComponent, TriangleComponent } from "./shape.js";
 import { TilemapLayerComponent } from "./tilemap.js";
@@ -15,6 +15,7 @@ export const GameObjectTypes = [
             ...AlphaComponent(),
             ...BlendModeComponent(),
             ...TintComponent(),
+            ...HitAreaComponent(),
             ...TextureComponent(),
         }
     },
@@ -28,6 +29,7 @@ export const GameObjectTypes = [
             ...AlphaComponent(),
             ...BlendModeComponent(),
             ...TintComponent(),
+            ...HitAreaComponent(),
             ...TextureComponent(),
             ...SpriteComponent()
         }
@@ -42,6 +44,7 @@ export const GameObjectTypes = [
             ...AlphaComponent(),
             ...BlendModeComponent(),
             ...TintComponent(),
+            ...HitAreaComponent(),
             ...TextureComponent(),
             ...TileSpriteComponent()
         }
@@ -56,6 +59,7 @@ export const GameObjectTypes = [
             ...BlendModeComponent(),
             ...TextureComponent(),
             ...SingleTintComponent(),
+            ...HitAreaComponent(),
             ...SizeComponent(),
             ...NineSliceComponent()
         }
@@ -69,6 +73,7 @@ export const GameObjectTypes = [
             ...AlphaSingleComponent(),
             ...BlendModeComponent(),
             ...SingleTintComponent(),
+            ...HitAreaComponent(),
             ...TextureComponent(),
             ...SizeComponent(),
             ...ThreeSliceComponent()
@@ -84,6 +89,7 @@ export const GameObjectTypes = [
             ...FlipComponent(),
             ...BlendModeComponent(),
             ...TintComponent(),
+            ...HitAreaComponent(),
             ...TextComponent(),
         }
     },
@@ -93,7 +99,7 @@ export const GameObjectTypes = [
             ...VisibleComponent(),
             ...AlphaSingleComponent(),
             ...BlendModeComponent(BlendModes.SKIP_CHECK),
-            ...TransformComponent()
+            ...HitAreaComponent(),
         }
     },
     {
@@ -102,7 +108,8 @@ export const GameObjectTypes = [
             ...VisibleComponent(),
             ...AlphaSingleComponent(),
             ...BlendModeComponent(BlendModes.SKIP_CHECK),
-            ...TransformComponent()
+            ...TransformComponent(),
+            ...HitAreaComponent()
         }
     },
     {
@@ -114,6 +121,7 @@ export const GameObjectTypes = [
             ...AlphaComponent(),
             ...BlendModeComponent(),
             ...TintComponent(),
+            ...HitAreaComponent(),
             ...BitmapTextComponent(),
         }
     },
@@ -124,6 +132,7 @@ export const GameObjectTypes = [
             ...OriginComponent(),
             ...VisibleComponent(),
             ...AlphaSingleComponent(),
+            ...HitAreaComponent(),
             ...ShapeComponent(),
             ...BlendModeComponent(),
             ...SizeComponent()
@@ -136,6 +145,7 @@ export const GameObjectTypes = [
             ...OriginComponent(),
             ...VisibleComponent(),
             ...AlphaSingleComponent(),
+            ...HitAreaComponent(),
             ...ShapeComponent(),
             ...SizeComponent(),
             ...BlendModeComponent(),
@@ -149,6 +159,7 @@ export const GameObjectTypes = [
             ...OriginComponent(),
             ...VisibleComponent(),
             ...AlphaSingleComponent(),
+            ...HitAreaComponent(),
             ...BlendModeComponent(),
             ...ShapeComponent(),
             ...TriangleComponent()
@@ -161,6 +172,7 @@ export const GameObjectTypes = [
             ...OriginComponent(),
             ...VisibleComponent(),
             ...AlphaSingleComponent(),
+            ...HitAreaComponent(),
             ...BlendModeComponent(),
             ...ShapeComponent(),
             ...PolygonComponent()
@@ -173,6 +185,7 @@ export const GameObjectTypes = [
             ...OriginComponent(),
             ...VisibleComponent(),
             ...AlphaSingleComponent(),
+            ...HitAreaComponent(),
             ...BlendModeComponent(),
             ...ParticleEmitterComponent()
         }
@@ -182,6 +195,7 @@ export const GameObjectTypes = [
         schema: {
             ...TransformComponent(),
             ...VisibleComponent(),
+            ...HitAreaComponent(),
             ...BlendModeComponent(),
             ...SpineComponent()
         }
