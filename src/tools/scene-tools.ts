@@ -7,6 +7,7 @@ import { GameObjectTypes } from "../schemas/gameobjects.js";
 import { PlainObjectTypes } from "../schemas/plainobjects.js";
 import { defineTilemapTools as defineEditableTilemapTools } from "./editable-tilemap-tools.js";
 import { defineFilterTools } from "../schemas/filters.js";
+import { defineArcadePhysicsTools } from "../schemas/arcade.js";
 
 export function defineSceneTools() {
 
@@ -59,6 +60,10 @@ export function defineSceneTools() {
     // filter tools
 
     defineFilterTools();
+
+    // arcade physics tools
+
+    defineArcadePhysicsTools();
 
     // Plain objects tools
 
