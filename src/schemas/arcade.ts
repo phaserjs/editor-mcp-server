@@ -27,7 +27,7 @@ export function ArcadeComponent() {
 
 export function defineArcadePhysicsTools() {
 
-    defineTool("scene-enable-arcade-physics-body", "Adds an Arcade physics body to the given game objects.", {
+    defineTool("scene-enable-arcade-physics-body", "Adds an Arcade physics body to the given game objects. To set the physics body properties you first have to create the body with this tool.", {
         ...SceneId(),
         objectIds: z.array(z.string()).describe("The IDs of the game objects to add the Arcade physics body to."),
     });
