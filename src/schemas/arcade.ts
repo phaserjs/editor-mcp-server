@@ -21,6 +21,8 @@ export function ArcadeComponent() {
         radius: z.number().default(0).optional().describe("The radius of the physics body if the bodyGeometry is CIRCLE. This is ignored if the bodyGeometry is RECTANGLE."),
         "body.width": z.number().default(0).optional().describe("The width of the physics body if the bodyGeometry is RECTANGLE. This is ignored if the bodyGeometry is CIRCLE."),
         "body.height": z.number().default(0).optional().describe("The height of the physics body if the bodyGeometry is RECTANGLE. This is ignored if the bodyGeometry is CIRCLE."),
+        "body.offset.x": z.number().default(0).optional().describe("The x offset of the physics body from the game object. This is used to position the physics body relative to the game object. When the bodyGeometry is CIRCLE, this is the offset from the center of the game object to the center of the circle. When the bodyGeometry is RECTANGLE, this is the offset from the top-left corner of the game object to the top-left corner of the rectangle."),
+        "body.offset.y": z.number().default(0).optional().describe("The y offset of the physics body from the game object. This is used to position the physics body relative to the game object. Read the description of body.offset.x for more information about how this works."),
     }
 }
 
