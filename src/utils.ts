@@ -1,8 +1,9 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { ZodRawShape } from "zod";
+import z, { ZodRawShape } from "zod";
 import { sendRequestToPhaserEditor } from "./bridge.js";
 import packageJson from "../package.json" with { type: "json" };
+import { SceneId } from "./schemas/components.js";
 
 const title = `Phaser Editor MCP Server v${packageJson.version}`;
 
@@ -38,5 +39,17 @@ export function defineTool(name: string, description: string, args: ZodRawShape)
         return {
             content: response
         };
+    });
+}
+
+export function defineUpdatePropertiesTool(componentName: string, componentDisplayName: string, props: any) {
+
+    defineTool(`scene-update-game-object-${componentName}`,
+        `Update the ${componentDisplayName} properties of the given game objects.`, {
+        ...SceneId(),
+        updates: z.array(z.object({
+            objectId: z.string().describe("The ID of the game object to update hit area properties for."),
+            props: z.object(props).describe(`The properties to set on the ${componentDisplayName}.`),
+        }))
     });
 }

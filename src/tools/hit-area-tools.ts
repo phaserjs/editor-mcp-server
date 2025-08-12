@@ -1,5 +1,5 @@
 import z from "zod";
-import { defineTool } from "../utils.js";
+import { defineTool, defineUpdatePropertiesTool } from "../utils.js";
 import { SceneId } from "../schemas/components.js";
 
 export function HitAreaComponent() {
@@ -28,12 +28,5 @@ export function HitAreaComponent() {
 
 export function defineHitAreaTools() {
 
-    defineTool("scene-update-game-object-hit-area", 
-        `Update the hit area properties of the given game objects.`, {
-        ...SceneId(),
-        updates: z.array(z.object({
-            objectId: z.string().describe("The ID of the game object to update hit area properties for."),
-            props: z.object(HitAreaComponent())
-        }))
-    });
+    defineUpdatePropertiesTool("hit-area", "hit area", HitAreaComponent());
 }
