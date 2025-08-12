@@ -1,14 +1,16 @@
-// enable arcade physics body
+import z from "zod";
+import { SceneId } from "../schemas/components.js";
+import { defineTool } from "../utils.js";
 
-// update arcade physics body
+export function defineArcadePhysicsTools() {
 
-// disable body
+    defineTool("scene-enable-arcade-physics-body", "Adds an Arcade physics body to the given game objects. To set the physics body properties you first have to create the body with this tool.", {
+        ...SceneId(),
+        objectIds: z.array(z.string()).describe("The IDs of the game objects to add the Arcade physics body to."),
+    });
 
-// create arcade physics collider
-
-// obj vs obj
-// obj vs obj list
-// obj vs container
-// obj vs layer
-
-// delete arcade physics collider
+    defineTool("scene-disable-arcade-physics-body", "Removes the Arcade physics body from the given game objects.", {
+        ...SceneId(),
+        objectIds: z.array(z.string()).describe("The IDs of the game objects to remove the Arcade physics body from."),
+    });
+}

@@ -6,8 +6,9 @@ import { SceneId, VariableComponent } from "../schemas/components.js";
 import { GameObjectTypes } from "../schemas/gameobjects.js";
 import { PlainObjectTypes } from "../schemas/plainobjects.js";
 import { defineTilemapTools as defineEditableTilemapTools } from "./editable-tilemap-tools.js";
-import { defineFilterTools } from "../schemas/filters.js";
-import { defineArcadePhysicsTools } from "../schemas/arcade.js";
+import { defineFilterTools } from "./filter-tools.js";
+import { defineArcadePhysicsTools } from "./arcade-tools.js";
+import { defineHitAreaTools } from "./hit-area-tools.js";
 
 export function defineSceneTools() {
 
@@ -56,6 +57,10 @@ export function defineSceneTools() {
     // Editable tilemap tools
 
     defineEditableTilemapTools();
+
+    // hit area tools
+
+    defineHitAreaTools();
 
     // filter tools
 

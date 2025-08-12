@@ -1,8 +1,7 @@
 import z from "zod";
-import { BlendModeComponent, BlendModes, SceneId, TextureComponent, VariableComponent } from "./components.js";
-import { defineTool } from "../utils.js";
+import { BlendModes, TextureComponent } from "./components.js";
 
-function FilterComponent() {
+export function FilterComponent() {
 
     return {
         paddingLeft: z.number().default(0).optional().describe("The padding to apply to the left side of the filter. This is useful for filters that need extra space on the left side. Often it uses negative values to create a space for the filter effect."),
@@ -12,7 +11,7 @@ function FilterComponent() {
     }
 }
 
-function GlowFilterComponent() {
+export function GlowFilterComponent() {
 
     return {
         color: z.string().default("#ffffff").optional().describe("The color of the glow effect. This value should be set as a hex number, i.e. 0xff0000 for red, or 0xff00ff for purple."),
@@ -25,7 +24,7 @@ function GlowFilterComponent() {
     };
 }
 
-function ShadowFilterComponent() {
+export function ShadowFilterComponent() {
 
     return {
         x: z.number().default(0).optional().describe("The horizontal offset of the shadow effect."),
@@ -39,14 +38,14 @@ function ShadowFilterComponent() {
     };
 }
 
-function PixelateFilterComponent() {
+export function PixelateFilterComponent() {
 
     return {
         amount: z.number().default(1).optional().describe("The amount of pixelation to apply. The size of the pixels is equal to 2 + the amount."),
     };
 }
 
-function BlurFilterComponent() {
+export function BlurFilterComponent() {
 
     return {
         x: z.number().default(2).optional().describe("The horizontal offset of the blur effect."),
@@ -57,14 +56,14 @@ function BlurFilterComponent() {
     };
 }
 
-function BarrelFilterComponent() {
+export function BarrelFilterComponent() {
 
     return {
         amount: z.number().default(1).optional().describe("The amount of distortion applied to the barrel effect. Typically keep this within the range 1 (no distortion) to +- 1."),
     };
 }
 
-function DisplacementFilterComponent() {
+export function DisplacementFilterComponent() {
 
     return {
         x: z.number().default(0.005).optional().describe("The amount of horizontal displacement to apply.\nThe maximum horizontal displacement in pixels is `x` multiplied by 0.5 times the width of the camera rendering the filter."),
@@ -75,7 +74,7 @@ function DisplacementFilterComponent() {
     };
 }
 
-function BokehFilterComponent() {
+export function BokehFilterComponent() {
 
     return {
         radius: z.number().default(0.5).optional().describe("The radius of the bokeh effect. This is a float value, where a radius of 0 will result in no effect being applied,\nand a radius of 1 will result in a strong bokeh. However, you can exceed this value\nfor even stronger effects."),
@@ -88,7 +87,7 @@ function BokehFilterComponent() {
     };
 }
 
-function BlendFilterComponent() {
+export function BlendFilterComponent() {
 
     return {
         blendMode: z.nativeEnum(BlendModes).default(BlendModes.NORMAL).optional().describe("The blend mode of the game object. It defines how the game object is blended with the background. The default value is `NORMAL`."),
@@ -100,21 +99,21 @@ function BlendFilterComponent() {
     };
 }
 
-function MaskFilterComponent() {
+export function MaskFilterComponent() {
 
     return {
         invert: z.boolean().default(false).optional().describe("Whether to invert the mask.\nAn inverted mask switches what it hides and what it shows."),
     };
 }
 
-function ObjectMaskFilterComponent() {
+export function ObjectMaskFilterComponent() {
 
     return {
         maskObjectId: z.string().optional().describe("The `id` of the game object to use as a mask for the filter."),
     };
 }
 
-function ThresholdComponent() {
+export function ThresholdComponent() {
 
     return {
         edge1: z.array(z.number()).length(4).default([0.5, 0.5, 0.5, 0.5]).optional().describe("The first edge of the threshold.\nThis contains the lowest value for each channel."),
@@ -123,7 +122,7 @@ function ThresholdComponent() {
     };
 }
 
-const ColorMatrixOperationType = [
+export const ColorMatrixOperationType = [
     "NOP",
     "SET_MATRIX",
     "SET_BRIGHTNESS",
@@ -134,7 +133,7 @@ const ColorMatrixOperationType = [
     "SET_NIGHT"
 ] as const;
 
-const ColorMatrixPreset = [
+export const ColorMatrixPreset = [
     "BLACK_WHITE",
     "NEGATIVE",
     "DESATURATE_LUMINANCE",
@@ -148,7 +147,7 @@ const ColorMatrixPreset = [
     "SHIFT_BGR"
 ] as const;
 
-function ColorMatrixComponent() {
+export function ColorMatrixComponent() {
 
     return {
         operationType: z.enum(ColorMatrixOperationType).default("NOP").optional().describe("The type of operation to perform."),
@@ -163,7 +162,7 @@ function ColorMatrixComponent() {
     };
 }
 
-const FilterTypes = [
+export const FilterTypes = [
     {
         type: "Glow",
         schema: {
@@ -251,55 +250,3 @@ const FilterTypes = [
         }
     }
 ];
-
-export function defineFilterTools() {
-
-    const unionElements_add = FilterTypes.map((filterType) => {
-
-        return z.object({
-            type: z.literal(filterType.type),
-            args: z.object({
-                parentId: z.string().describe(`The \`id\` of the game object to add the ${filterType.type} filter to.`),
-                label: z.string().describe("Label of the filter. It is used to name the filter in the scene and as the variable name in code."),
-                internal: z.boolean().default(true).optional().describe("If add it to the internal filter list of the game object. The internal filters are rendered in the space of the object. You should set padding values to make space for the filter effect. If set to `false`, the filter is added to the scene's filter list and is rendered in the space of the whole scene."),
-                ...VariableComponent(),
-                ...filterType.schema as any
-            })
-        });
-    });
-
-    defineTool("scene-add-game-object-filters", "Add multiple filters to parent game objects in the scene", {
-        ...SceneId(),
-        objects: z.array(z.discriminatedUnion("type", unionElements_add as any)).describe("The filters to add to the game objects.")
-    });
-
-    const unionElements_update = FilterTypes.map((filterType) => {
-
-        const type = filterType.type;
-
-        return z.object({
-            type: z.literal(type),
-            args: z.object({
-                id: z.string().describe(`The \`id\` of the ${type} filter to update.`),
-                label: z.string().optional().describe("Label of the filter. It is used to name the object in the scene and as the variable name in code."),
-                ...filterType.schema as any
-            })
-        })
-    });
-
-    defineTool("scene-update-game-object-filters", "Update multiple filters of a game object.", {
-        ...SceneId(),
-        objects: z.array(z.discriminatedUnion("type", unionElements_update as any)).describe("The filter objects to update.")
-    });
-
-    defineTool("scene-delete-game-object-filters", "Delete the given filters from the scene.", {
-        ...SceneId(),
-        filterIds: z.array(z.string()).describe("The `id`s of the filters to delete.")
-    });
-
-    defineTool("scene-update-game-object-filter-list", "Update the list where the filter is placed. A filter could be on the internal or external filter list. The internal filters are rendered in the game object space. The external filters are rendered in the camera space.", {
-        ...SceneId(),
-        filterId: z.string().describe("The `id` of the filter to update."),
-        internal: z.boolean().describe("If `true`, the filter is added to the internal filter list of the game object. If `false`, the filter is added to the scene's filter list.")
-    });
-}
