@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { SceneId } from "../schemas/components.js";
-import { defineTool } from "../utils.js";
+import { defineTool } from "../../utils.js";
+import { SceneId } from "./common.js";
 
 const EditableTilesetConfig = z.object({
     name: z.string().describe("The name of the tileset, as it appears in the map data."),
@@ -11,7 +11,7 @@ const EditableTilesetConfig = z.object({
     tileSpacing: z.number().default(0).describe("The spacing between tiles in pixels."),
 });
 
-export function defineTilemapTools() {
+export function defineEditableTilemapTools() {
 
     defineTool("scene-add-editable-tilemap", "Add an editable tilemap to the scene. An editable tilemap is different to a Tiled map because all the data can be edited by the user in the scene editor. However, it follows many of the concepts of Tiled. The editable tilemap is also a plain object so you can manipulate it using most of the plain object tools.", {
         ...SceneId(),

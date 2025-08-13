@@ -1,6 +1,10 @@
-import { AlphaComponent, AlphaSingleComponent, BitmapTextComponent, BlendModeComponent, BlendModes, FlipComponent, NineSliceComponent, OriginComponent, SingleTintComponent, SizeComponent, SpineComponent, SpriteComponent, TextComponent, TextureComponent, ThreeSliceComponent, TileSpriteComponent, TintComponent, TransformComponent, VisibleComponent } from "./components.js";
-import { ParticleEmitterComponent } from "./particle-emitter.js";
+import { BitmapTextComponent } from "./bitmaptext.js";
+import { AlphaComponent, AlphaSingleComponent, BlendModeComponent, BlendModes, FlipComponent, OriginComponent, SingleTintComponent, SizeComponent, SpriteComponent, TextureComponent, TileSpriteComponent, TintComponent, TransformComponent, VisibleComponent } from "./common.js";
+import { NineSliceComponent, ThreeSliceComponent } from "./nineslice.js";
+import { ParticleEmitterComponent } from "./particles.js";
 import { EllipseComponent, PolygonComponent, ShapeComponent, TriangleComponent } from "./shape.js";
+import { SpineComponent } from "./spine.js";
+import { TextComponent } from "./text.js";
 import { TilemapLayerComponent } from "./tilemap.js";
 
 

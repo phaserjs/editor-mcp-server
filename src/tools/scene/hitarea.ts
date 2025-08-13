@@ -1,6 +1,5 @@
 import z from "zod";
-import { defineTool, defineUpdatePropertiesTool } from "../utils.js";
-import { SceneId } from "../schemas/components.js";
+import { defineUpdatePropertiesTool } from "../../utils.js";
 
 export function HitAreaComponent() {
 

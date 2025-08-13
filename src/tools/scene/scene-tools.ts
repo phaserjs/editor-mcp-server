@@ -1,14 +1,12 @@
-// Scene
-
-import { z } from "zod";
-import { defineTool } from "../utils.js";
-import { SceneId, VariableComponent } from "../schemas/components.js";
-import { GameObjectTypes } from "../schemas/gameobjects.js";
-import { PlainObjectTypes } from "../schemas/plainobjects.js";
-import { defineTilemapTools as defineEditableTilemapTools } from "./editable-tilemap-tools.js";
-import { defineFilterTools } from "./filter-tools.js";
-import { defineArcadePhysicsTools } from "./arcade-tools.js";
-import { defineHitAreaTools } from "./hit-area-tools.js";
+import z from "zod";
+import { defineTool } from "../../utils.js";
+import { SceneId, VariableComponent } from "./common.js";
+import { defineHitAreaTools } from "./hitarea.js";
+import { defineFilterTools } from "./filters.js";
+import { defineArcadePhysicsTools } from "./arcade.js";
+import { GameObjectTypes } from "./gameobjects.js";
+import { PlainObjectTypes } from "./plainobjects.js";
+import { defineEditableTilemapTools } from "./editable-tilemap-tools.js";
 
 export function defineSceneTools() {
 

@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { TextureComponent } from "../schemas/components.js";
 import { defineTool } from "../utils.js";
+import { TextureComponent } from "./scene/common.js";
 
 export function defineAssetTools() {
 

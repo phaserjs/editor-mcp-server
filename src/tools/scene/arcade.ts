@@ -1,6 +1,6 @@
 import z from "zod";
-import { SceneId } from "../schemas/components.js";
-import { defineTool, defineUpdatePropertiesTool } from "../utils.js";
+import { SceneId } from "./common.js";
+import { defineTool, defineUpdatePropertiesTool } from "../../utils.js";
 
 enum PhysicsType {
     DYNAMIC_BODY = 0,

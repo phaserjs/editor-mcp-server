@@ -3,7 +3,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import z, { ZodRawShape } from "zod";
 import { sendRequestToPhaserEditor } from "./bridge.js";
 import packageJson from "../package.json" with { type: "json" };
-import { SceneId } from "./schemas/components.js";
+import { SceneId } from "./tools/scene/common.js";
 
 const title = `Phaser Editor MCP Server v${packageJson.version}`;
 

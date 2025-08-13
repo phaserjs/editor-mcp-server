@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { FrameSchema } from "./components.js";
+import { FrameSchema } from "./common.js";
 
 const ConfigValueType_None = z.object({
     type: z.literal("None"),
