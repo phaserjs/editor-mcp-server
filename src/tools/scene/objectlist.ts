@@ -23,4 +23,9 @@ export function defineObjectListTools() {
         id: z.string().describe("The id of the object list to update."),
         ...ObjectListComponent()
     });
+
+    defineTool("scene-remove-object-list", "Remove an Object List from the scene.", {
+        ...SceneId(),
+        listIds: z.array(z.string()).describe("The ids of the object lists to remove."),
+    });
 }
