@@ -83,6 +83,18 @@ export function ArcadeComponent() {
     }
 }
 
+export function ColliderComponent() {
+
+    return {
+        object1: z.string().optional().describe("A valid javascript expression that returns the objects that are part of the collider. A collider tests `object1` against `object2`. It is very common that the expression points to the variable of a game object, like in `player`, a Layer's list (`myLayer.list`), a Container list (`myContainer.list`), or a game object list that groups other objects in the scene. Colliders are created at the end of the scene so you can reference the variable names of the game objects."),
+        object2: z.string().optional().describe("A valid javascript expression that returns the objects that are part of the collider. Look the `object1` property for more information."),
+        overlapOnly: z.boolean().default(false).optional().describe("If true, the collider will only check for overlap between the two objects. When it is overlap-only, the objects will not bounce off each other, but will still trigger the `collide` event if they overlap."),
+        processCallback: z.string().optional().describe("A valid javascript expression that returns a function to be called when the collider detects a collision. The function will receive the two objects that are colliding as arguments. The function can return `true` to allow the collision to happen, or `false` to prevent it."),
+        collideCallback: z.string().optional().describe("A valid javascript expression that returns a function to be called when the collider detects a collision. The function will receive the two objects that are colliding as arguments."),
+        callbackContext: z.string().optional().describe("A valid javascript expression that returns the context in which the `processCallback` and `collideCallback` functions will be called. This is useful if you want to use `this` inside the callback functions to access properties or methods of a class or object. Most of the time you will use `this` to access the scene, like in `this` or `this.scene` in a context of a prefab."),
+    };
+}
+
 export function defineArcadePhysicsTools() {
 
     defineTool("scene-enable-arcade-physics-body", "Adds an Arcade physics body to the given game objects. To set the physics body properties you first have to create the body with this tool.", {

@@ -2,12 +2,18 @@ import z from "zod";
 import { defineTool } from "../../utils.js";
 import { SceneId } from "./common.js";
 import { TilemapComponent } from "./tilemap.js";
+import { ColliderComponent } from "./arcade.js";
 
 export const PlainObjectTypes = [
     {
         type: "Tilemap",
         schema: {
             ...TilemapComponent()
+        }
+    }, {
+        type: "Collider",
+        schema: {
+            ...ColliderComponent()
         }
     }
 ];
