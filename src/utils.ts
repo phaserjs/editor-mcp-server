@@ -48,7 +48,7 @@ export function defineUpdatePropertiesTool(componentName: string, componentDispl
         `Update the ${componentDisplayName} properties of the given game objects.`, {
         ...SceneId(),
         updates: z.array(z.object({
-            objectId: z.string().describe("The ID of the game object to update hit area properties for."),
+            objectId: z.string().describe("The ID of the game object to update properties for."),
             props: z.object(props).describe(`The properties to set on the ${componentDisplayName}.`),
         }))
     });

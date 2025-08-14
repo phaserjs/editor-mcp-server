@@ -99,15 +99,16 @@ export function defineArcadePhysicsTools() {
 
     defineTool("scene-enable-arcade-physics-body", "Adds an Arcade physics body to the given game objects. To set the physics body properties you first have to create the body with this tool.", {
         ...SceneId(),
-        updates: z.array(z.object({
-            objectId: z.string().describe("The ID of the game object to add the Arcade physics body to."),
-            props: z.object(ArcadeComponent()).describe("The properties to set on the Arcade physics body."),
-        })),
+        updates: z.array(
+            z.object({
+                id: z.string().describe("The ID of the game object to add the Arcade physics body to."),
+                ...ArcadeComponent()
+            })),
     });
 
     defineTool("scene-disable-arcade-physics-body", "Removes the Arcade physics body from the given game objects.", {
         ...SceneId(),
-        objectIds: z.array(z.string()).describe("The IDs of the game objects to remove the Arcade physics body from."),
+        ids: z.array(z.string()).describe("The IDs of the game objects to remove the Arcade physics body from."),
     });
 
     defineUpdatePropertiesTool("arcade-physics-body", "Arcade physics body", ArcadeComponent());

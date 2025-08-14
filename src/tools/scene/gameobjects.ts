@@ -253,21 +253,16 @@ export function defineGameObjectTools() {
 
     const unionElements_update = GameObjectTypes.map((gameObjectType) => {
 
-        const type = gameObjectType.type;
-
         return z.object({
-            type: z.literal(type),
-            args: z.object({
-                id: z.string().describe(`The \`id\` of the ${type} game object to update.`),
-                label: z.string().optional().describe("Label of the object. It is used to name the object in the scene and as the variable name in code."),
-                ...VariableComponent(),
-                ...gameObjectType.schema as any
-            })
-        })
+            id: z.string().describe(`The \`id\` of the game object to update.`),
+            label: z.string().optional().describe("Label of the object. It is used to name the object in the scene and as the variable name in code."),
+            ...VariableComponent(),
+            ...gameObjectType.schema as any
+        });
     });
 
     defineTool("scene-update-game-objects", "Update multiple game objects in the scene.", {
         ...SceneId(),
-        objects: z.array(z.discriminatedUnion("type", unionElements_update as any)).describe("The game objects to add to the scene.")
+        objects: z.array(z.union(unionElements_update as any)).describe("The game objects to add to the scene.")
     });
 }
