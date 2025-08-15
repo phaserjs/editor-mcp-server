@@ -1,11 +1,8 @@
 #!/usr/bin/env node
 
 import { defineAssetTools } from "./tools/assets-tools.js";
-import { defineIDETools } from "./tools/ide-tools.js";
 import { defineSceneTools } from "./tools/scene/scene-tools.js";
 import { startServer } from "./utils.js";
-
-defineIDETools();
 
 defineSceneTools();
 

@@ -8,8 +8,12 @@ import { defineGameObjectTools } from "./gameobjects.js";
 import { definePlainObjectTools } from "./plainobjects.js";
 import { defineEditableTilemapTools } from "./editable-tilemap-tools.js";
 import { defineObjectListTools } from "./objectlist.js";
+import { defineSceneIDETools } from "./scene-ide-tools.js";
+import { definePrefabTools } from "./prefab.js";
 
 export function defineSceneTools() {
+
+    defineSceneIDETools();
 
     defineTool("scene-clear-scene", "Clear the current scene.", {
         ...SceneId()
@@ -30,6 +34,8 @@ export function defineSceneTools() {
     defineTool("scene-get-scene-data", "Get all objects in the current scene, including their properties.", {
         ...SceneId()
     });
+
+    definePrefabTools();
 
     defineEditableTilemapTools();
 

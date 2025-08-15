@@ -3,7 +3,7 @@ import { z } from "zod";
 export function SceneId() {
 
     return {
-        sceneId: z.string().describe("The `id` of the scene. The `id` is not the name of the scene, else a unique identifier is set in the scene data. You need to read the scene data to get the `id`."),
+        sceneId: z.string().describe("The `id` of the scene. The `id` is not the name of the scene, else a unique identifier is set in the scene data. You need to read the scene data to get the `id`.",),
     };
 }
 
