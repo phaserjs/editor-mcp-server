@@ -4,6 +4,8 @@ import { TextureComponent } from "./scene/common.js";
 
 export function defineAssetTools() {
 
+    defineTool("assets-get-available-asset-packs", "Get all available asset packs in the project. An asset pack is a collection of assets, like images, audio files, and other resources that can be used in the game. The asset pack contains information like the key of the assets, the url to the file, and other parameters.", {});
+
     defineTool("assets-get-available-textures", "Get all available textures in the project. It includes the name of the texture and the size.", {});
 
     defineTool("assets-get-texture-binary", "Get the size of the texture. If you need to get the real size of the object inside the texture (without the transparent margin), then you can use the `assets-get-texture-content-bounding-box` tool.", {
