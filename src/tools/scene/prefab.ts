@@ -80,4 +80,9 @@ export function definePrefabTools() {
         sceneId: z.string().describe("The `id` of the prefab scene. The `id` is not the name of the scene, else a unique identifier is set in the scene data. You need to read the scene data to get the `id`. This id refers only to the scenes that are prefabs.",),
         ...UserPropertyDefinitionComponent(),
     });
+
+    defineTool("scene-delete-prefab-property", "Delete a user property from the given prefab.", {
+        sceneId: z.string().describe("The `id` of the prefab scene. The `id` is not the name of the scene, else a unique identifier is set in the scene data. You need to read the scene data to get the `id`. This id refers only to the scenes that are prefabs.",),
+        name: z.string().describe("The name of the user property to delete."),
+    });
 }
