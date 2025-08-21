@@ -64,6 +64,13 @@ function UserPropertyDefinitionComponent() {
     };
 }
 
+export function PrefabSceneId() {
+
+    return {
+        sceneId: z.string().describe("The `id` of the prefab scene. The `id` is not the name of the scene, else a unique identifier is set in the scene data. You need to read the scene data to get the `id`. This id refers only to the scenes that are prefabs.",)
+    };
+}
+
 export function definePrefabTools() {
 
     defineTool("ide-create-new-prefab-scene", "Create a new special scene that is a prefab. A prefab is a scene with a single game object (the prefab object) and its children. You can create a prefab instance and add it to a scene or another prefab. That's the idea of prefabs, create reusable objects. It is very common to create a prefab for every entity of the game, like the player, the different enemies, non-player characters, platforms, collectibles and many more. A prefab scene is compiled as a subclass of a game object, not as a Phaser.Scene. You can think about a prefab as a custom game object class. Even, you can create a prefab that is variant of another prefab. This means, a prefab that inherits another prefab. To create a prefab variant, just use another prefab instance as root of the prefab scene, as prefab object. This tool only creates an empty prefab scene, you must add the prefab object to the scene, immediately. The goal of a prefab is to instantiate and add it to other scenes.", {
@@ -77,12 +84,12 @@ export function definePrefabTools() {
     });
 
     defineTool("scene-declare-prefab-property", "Create a new user property for the given prefab.", {
-        sceneId: z.string().describe("The `id` of the prefab scene. The `id` is not the name of the scene, else a unique identifier is set in the scene data. You need to read the scene data to get the `id`. This id refers only to the scenes that are prefabs.",),
+        ...PrefabSceneId(),
         ...UserPropertyDefinitionComponent(),
     });
 
     defineTool("scene-delete-prefab-property", "Delete a user property from the given prefab.", {
-        sceneId: z.string().describe("The `id` of the prefab scene. The `id` is not the name of the scene, else a unique identifier is set in the scene data. You need to read the scene data to get the `id`. This id refers only to the scenes that are prefabs.",),
+        ...PrefabSceneId(),
         name: z.string().describe("The name of the user property to delete."),
     });
 }
