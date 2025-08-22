@@ -16,7 +16,7 @@ export function defineSceneIDETools() {
         name: z.string().describe("The name of the scene file. It is not a full name, just the name. The extension will be added automatically."),
     });
 
-    defineTool("ide-save-scene", "Save the the editor of the given scene. This tool should be used only if the user requests it explicity, or if you need that the editor generates the code of the scene. It is important to keep both the scene content and the scene's code file in sync if you are working in both files at the same time.", {
+    defineTool("ide-save-scene", "Save the the editor of the given scene. When the scene is saved, the editor generates its code. Use this tool to sync the scene with the code it represents. It is important to keep both the scene content and the scene's code file in sync if you are working in both files at the same time. Also, it is very important that you save prefab scenes after changing them, so the changes can be propagated in all the scenes that contains the instances of the prefab.", {
         ...SceneId(),
     });
 }

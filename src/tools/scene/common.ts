@@ -121,7 +121,7 @@ export function SingleTintComponent() {
     }
 }
 
-export const FrameSchema = z.union([z.string(), z.number()]).optional().describe("The frame of the texture, in case it is an atlas, sprite-sheet, or other complex texture.");
+export const FrameSchema = z.union([z.string(), z.number()]).optional().describe("The frame of the texture, in case it is an atlas, sprite-sheet, or other complex texture. It is optional, if the texture is a simple image, you should omit the frame.");
 
 export function TextureComponent() {
 
@@ -165,6 +165,13 @@ export function SizeComponent() {
     return {
         width: z.number().optional().describe("The width of the game object."),
         height: z.number().optional().describe("The height of the game object."),
+    }
+}
+
+export function ParentComponent() {
+
+    return {
+        allowAppendChildren: z.boolean().default(false).optional().describe("If true, the prefab instance allows to append children game objects to it. If false, the prefab instance doesn't allow to append children game objects to it. In that case, the user cannot add children game objects to the prefab instance in the scene editor. This field is only valid for prefab instances. You always can add children to a parent game object that is not a prefab instance."),
     }
 }
 

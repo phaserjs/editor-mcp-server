@@ -1,6 +1,6 @@
 import z from "zod";
 import { BitmapTextComponent } from "./bitmaptext.js";
-import { AlphaComponent, AlphaSingleComponent, BlendModeComponent, BlendModes, FlipComponent, OriginComponent, SceneId, SingleTintComponent, SizeComponent, SpriteComponent, TextureComponent, TileSpriteComponent, TintComponent, TransformComponent, VariableComponent, VisibleComponent } from "./common.js";
+import { AlphaComponent, AlphaSingleComponent, BlendModeComponent, BlendModes, FlipComponent, OriginComponent, ParentComponent, SceneId, SingleTintComponent, SizeComponent, SpriteComponent, TextureComponent, TileSpriteComponent, TintComponent, TransformComponent, VariableComponent, VisibleComponent } from "./common.js";
 import { NineSliceComponent, ThreeSliceComponent } from "./nineslice.js";
 import { ParticleEmitterComponent } from "./particles.js";
 import { EllipseComponent, PolygonComponent, ShapeComponent, TriangleComponent } from "./shape.js";
@@ -96,6 +96,7 @@ export const GameObjectTypes = [
     {
         type: "Layer",
         schema: {
+            ...ParentComponent(),
             ...VisibleComponent(),
             ...AlphaSingleComponent(),
             ...BlendModeComponent(BlendModes.SKIP_CHECK),
@@ -104,6 +105,7 @@ export const GameObjectTypes = [
     {
         type: "Container",
         schema: {
+            ...ParentComponent(),
             ...VisibleComponent(),
             ...AlphaSingleComponent(),
             ...BlendModeComponent(BlendModes.SKIP_CHECK),
@@ -214,8 +216,8 @@ export function PrefabComponent() {
 
     return {
         prefabId: z.string().optional().describe("The ID of a prefab scene. If provided, then an instanceof the prefab is created. The `type` property should match with the built-in type of the prefab."),
-        unlock: z.array(z.string()).optional().describe("An array of the properties to unlock in the prefab instance. If not provided, all properties are locked. This is useful to create a prefab instance that can be modified in the scene editor. A simple case is that most of the time you would like to unlock the `x` and `y` properties of thew prefab instance, so you can place it in a different position. You can use this field also to restore the default value of a property in a prefab instance. For example, if you have a prefab with a property `health` and you want to set it to the default value, then you can exclude the `health` property from the `unlock` list, and the object will get the `health` value defined in the prefab. In summary, if you are going to set a user property value, you should include its name in this `unlock` list, or exclude it if you want to restore the property's value to its default."),
-        prefabProps: z.record(z.any()).optional().describe("An object with the values of the user defined properties to set in the prefab instance. If not provided, the prefab instance will be created with the default values defined in the prefab scene. Prefab properties are declared in the prefab scene. When a prefab extends another prefab it inherits all the user properties, so you have to check all the hierarchy of a prefab to know all the properties defined by the user. Also, you should look into the property type so you can make the values with the right format. User properties can be locked/unlocked, so if you are going to set a user property value, you should include its name in the `unlock` field.")
+        unlock: z.array(z.string()).optional().describe("An array of the properties to unlock in the prefab instance. If not provided, all properties are locked. This is useful to create a prefab instance that can be modified in the scene editor. A simple case is that most of the time you would like to unlock the `x` and `y` properties of thew prefab instance, so you can place it in a different position. You can use this field also to restore the default value of a property in a prefab instance. For example, if you have a prefab with a property `health` and you want to set it to the default value, then you can exclude the `health` property from the `unlock` list, and the object will get the `health` value defined in the prefab. In summary, if you are going to set a user property value, you should include its name in this `unlock` list, or exclude it if you want to restore the property's value to its default. Each prefab instance contains its own `unlock` field. If you want to change a nested prefab instance, you have to access it directly."),
+        prefabProps: z.record(z.any()).optional().describe("An object with the values of the user defined properties to set in the prefab instance. If not provided, the prefab instance will be created with the default values defined in the prefab scene. Prefab properties are declared in the prefab scene. When a prefab extends another prefab it inherits all the user properties, so you have to check all the hierarchy of a prefab to know all the properties defined by the user. Also, you should look into the property type so you can make the values with the right format. User properties can be locked/unlocked, so if you are going to set a user property value, you should include its name in the `unlock` field. This is important, these are the properties of the prefab instance, not the properties of the nested prefab instances or any other children object. To change the property of nested prefab instances you have to access them directly and set the `prefabProps` in the nested prefab instance."),
     };
 }
 
@@ -249,6 +251,7 @@ export function defineGameObjectTools() {
         return z.object({
             type: z.literal(gameObjectType.type).describe("The type of the game object to add."),
             label: z.string().describe("Label of the object. It is used to name the object in the scene and as the variable name in code."),
+            parentId: z.string().optional().describe("The `id` of the parent to move the object to. If no parent is given, the object will be add to the root of the scene. A parent could be a container, a layer, or a script node. In case the parent is a prefab instance or nested prefab instance, then look if its `allowAppendChildren` property is enabled."),
             ...PrefabComponent(),
             ...VariableComponent(),
             ...gameObjectType.schema as any

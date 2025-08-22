@@ -1,5 +1,6 @@
 import z from "zod";
 import { defineTool } from "../../utils.js";
+import { SceneId } from "./common.js";
 
 
 const USER_PROPERTY_IDS = [
@@ -91,5 +92,10 @@ export function definePrefabTools() {
     defineTool("scene-delete-prefab-property", "Delete a user property from the given prefab.", {
         ...PrefabSceneId(),
         name: z.string().describe("The name of the user property to delete."),
+    });
+
+    defineTool("scene-get-nested-prefabs-instances", "Get all the nested prefab instances of the given prefab instance. A prefab instance can have other prefab instances as children that are exposed as nested prefab instances. This tool returns all the nested prefab instances, not the direct children. You can use this tool to get the info of the nested prefab instances and perform operations like updating the nested prefabs or, in case they are containers-like objects, add objects to them. You cannot delete a nested prefab instance. A nested prefab instance also have a `prefabId` that points to an object inside the root prefab. You can modify a nested prefab instance just like any other prefab instance, you have to provide the id, the values of the properties, and update the `unlock` field. Each nested prefab instance contains its own data.", {
+        ...SceneId(),
+        id: z.string().describe("The `id` of the prefab instance game object in the scene."),
     });
 }
