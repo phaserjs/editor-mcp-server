@@ -1,7 +1,6 @@
 import z from "zod";
 import { defineTool } from "../../utils.js";
 import { SceneId } from "./common.js";
-import { defineHitAreaTools } from "./hitarea.js";
 import { defineFilterTools } from "./filters.js";
 import { defineArcadePhysicsTools } from "./arcade.js";
 import { defineGameObjectTools } from "./gameobjects.js";
@@ -38,8 +37,6 @@ export function defineSceneTools() {
     definePrefabTools();
 
     defineEditableTilemapTools();
-
-    defineHitAreaTools();
 
     defineFilterTools();
 

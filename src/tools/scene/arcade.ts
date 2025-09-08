@@ -1,6 +1,6 @@
 import z from "zod";
 import { SceneId } from "./common.js";
-import { defineTool, defineUpdatePropertiesTool } from "../../utils.js";
+import { defineTool } from "../../utils.js";
 
 enum PhysicsType {
     DYNAMIC_BODY = 0,
@@ -16,8 +16,8 @@ export function ArcadeComponent() {
 
     return {
         "ArcadeComponent.active": z.boolean().default(false).readonly().optional().describe("Whether the arcade component is active or not. When the Arcade component is active it means the game object has a Phaser Arcade Physics body. To enable a physics body, use the scene-enable-arcade-physics-body tool. To disable a physics body, use the scene-disable-arcade-physics-body tool. This property is readonly and cannot be set directly."),
-        "body.physicsType": z.nativeEnum(PhysicsType).default(PhysicsType.DYNAMIC_BODY).optional().describe("The type of physics body to create for the Arcade Physics component. DYNAMIC_BODY (0) is a body that can move and be affected by forces, STATIC_BODY (1) is a body that does not move and is not affected by forces."),
-        "body.geometry": z.nativeEnum(BodyGeometry).default(BodyGeometry.RECTANGLE).optional().describe("The geometry of the physics body to create for the Arcade Physics component. CIRCLE (0) is a circular body, RECTANGLE (1) is a rectangular body."),
+        "body.physicsType": z.number().default(PhysicsType.DYNAMIC_BODY).optional().describe("The type of physics body to create for the Arcade Physics component. DYNAMIC_BODY (0) is a body that can move and be affected by forces, STATIC_BODY (1) is a body that does not move and is not affected by forces."),
+        "body.geometry": z.number().default(BodyGeometry.RECTANGLE).optional().describe("The geometry of the physics body to create for the Arcade Physics component. CIRCLE (0) is a circular body, RECTANGLE (1) is a rectangular body."),
         "body.radius": z.number().default(0).optional().describe("If this Body is circular, this is the unscaled radius of the Body, as set by setCircle(), in source pixels.\nThe true radius is equal to `halfWidth`."),
         "body.width": z.number().default(0).optional().describe("The width of the physics body if the bodyGeometry is RECTANGLE. This is ignored if the bodyGeometry is CIRCLE."),
         "body.height": z.number().default(0).optional().describe("The height of the physics body if the bodyGeometry is RECTANGLE. This is ignored if the bodyGeometry is CIRCLE."),
@@ -102,7 +102,7 @@ export function defineArcadePhysicsTools() {
         updates: z.array(
             z.object({
                 id: z.string().describe("The ID of the game object to add the Arcade physics body to."),
-                ...ArcadeComponent()
+                //...ArcadeComponent(),
             })),
     });
 
@@ -111,5 +111,5 @@ export function defineArcadePhysicsTools() {
         ids: z.array(z.string()).describe("The IDs of the game objects to remove the Arcade physics body from."),
     });
 
-    defineUpdatePropertiesTool("arcade-physics-body", "Arcade physics body", ArcadeComponent());
+    // defineUpdatePropertiesTool("arcade-physics-body", "Arcade physics body", ArcadeComponent());
 }

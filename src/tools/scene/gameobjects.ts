@@ -8,6 +8,7 @@ import { SpineComponent } from "./spine.js";
 import { TextComponent } from "./text.js";
 import { TilemapLayerComponent } from "./tilemap.js";
 import { defineTool } from "../../utils.js";
+import { ArcadeComponent } from "./arcade.js";
 
 
 export const GameObjectTypes = [
@@ -22,26 +23,29 @@ export const GameObjectTypes = [
             ...BlendModeComponent(),
             ...TintComponent(),
             ...TextureComponent(),
+            ...ArcadeComponent()
         }
     },
     {
         type: "Sprite",
         schema: {
             ...TransformComponent(),
+            ...SpriteComponent(),
+            ...TextureComponent(),
             ...OriginComponent(),
             ...FlipComponent(),
             ...VisibleComponent(),
             ...AlphaComponent(),
             ...BlendModeComponent(),
             ...TintComponent(),
-            ...TextureComponent(),
-            ...SpriteComponent()
+            ...ArcadeComponent()
         }
     },
     {
         type: "TileSprite",
         schema: {
             ...TransformComponent(),
+            ...TileSpriteComponent(),
             ...OriginComponent(),
             ...FlipComponent(),
             ...VisibleComponent(),
@@ -49,116 +53,125 @@ export const GameObjectTypes = [
             ...BlendModeComponent(),
             ...TintComponent(),
             ...TextureComponent(),
-            ...TileSpriteComponent()
+            ...ArcadeComponent()
         }
     },
     {
         type: "NineSlice",
         schema: {
             ...TransformComponent(),
+            ...SizeComponent(),
+            ...NineSliceComponent(),
+            ...TextureComponent(),
             ...OriginComponent(),
             ...VisibleComponent(),
             ...AlphaSingleComponent(),
             ...BlendModeComponent(),
-            ...TextureComponent(),
             ...SingleTintComponent(),
-            ...SizeComponent(),
-            ...NineSliceComponent()
+            ...ArcadeComponent()
         }
     },
     {
         type: "ThreeSlice",
         schema: {
             ...TransformComponent(),
+            ...SizeComponent(),
+            ...ThreeSliceComponent(),
+            ...TextureComponent(),
             ...OriginComponent(),
             ...VisibleComponent(),
             ...AlphaSingleComponent(),
             ...BlendModeComponent(),
             ...SingleTintComponent(),
-            ...TextureComponent(),
-            ...SizeComponent(),
-            ...ThreeSliceComponent()
+            ...ArcadeComponent()
         }
     },
     {
         type: "Text",
         schema: {
             ...TransformComponent(),
+            ...TextComponent(),
             ...OriginComponent(),
             ...VisibleComponent(),
             ...AlphaComponent(),
             ...FlipComponent(),
             ...BlendModeComponent(),
             ...TintComponent(),
-            ...TextComponent(),
+            ...ArcadeComponent()
         }
     },
     {
         type: "Layer",
         schema: {
             ...ParentComponent(),
+            ...BlendModeComponent(BlendModes.SKIP_CHECK),
             ...VisibleComponent(),
             ...AlphaSingleComponent(),
-            ...BlendModeComponent(BlendModes.SKIP_CHECK),
+            ...ArcadeComponent()
         }
     },
     {
         type: "Container",
         schema: {
+            ...TransformComponent(),
             ...ParentComponent(),
+            ...BlendModeComponent(BlendModes.SKIP_CHECK),
             ...VisibleComponent(),
             ...AlphaSingleComponent(),
-            ...BlendModeComponent(BlendModes.SKIP_CHECK),
-            ...TransformComponent(),
+            ...ArcadeComponent()
         }
     },
     {
         type: "BitmapText",
         schema: {
             ...TransformComponent(),
+            ...BitmapTextComponent(),
             ...OriginComponent(0),
             ...VisibleComponent(),
             ...AlphaComponent(),
             ...BlendModeComponent(),
             ...TintComponent(),
-            ...BitmapTextComponent(),
+            ...ArcadeComponent()
         }
     },
     {
         type: "Rectangle",
         schema: {
             ...TransformComponent(),
+            ...ShapeComponent(),
+            ...SizeComponent(),
             ...OriginComponent(),
             ...VisibleComponent(),
             ...AlphaSingleComponent(),
-            ...ShapeComponent(),
             ...BlendModeComponent(),
-            ...SizeComponent()
+            ...ArcadeComponent()
         }
     },
     {
         type: "Ellipse",
         schema: {
             ...TransformComponent(),
+            ...ShapeComponent(),
+            ...SizeComponent(),
+            ...EllipseComponent(),
             ...OriginComponent(),
             ...VisibleComponent(),
             ...AlphaSingleComponent(),
-            ...ShapeComponent(),
-            ...SizeComponent(),
             ...BlendModeComponent(),
-            ...EllipseComponent()
+            ...ArcadeComponent()
         }
     },
     {
         type: "Triangle",
         schema: {
             ...TransformComponent(),
+            ...ShapeComponent(),
+            ...TriangleComponent(),
             ...OriginComponent(),
             ...VisibleComponent(),
             ...AlphaSingleComponent(),
             ...BlendModeComponent(),
-            ...ShapeComponent(),
-            ...TriangleComponent()
+            ...ArcadeComponent()
         }
     },
     {
@@ -170,7 +183,8 @@ export const GameObjectTypes = [
             ...AlphaSingleComponent(),
             ...BlendModeComponent(),
             ...ShapeComponent(),
-            ...PolygonComponent()
+            ...PolygonComponent(),
+            ...ArcadeComponent()
         }
     },
     {
@@ -181,7 +195,8 @@ export const GameObjectTypes = [
             ...VisibleComponent(),
             ...AlphaSingleComponent(),
             ...BlendModeComponent(),
-            ...ParticleEmitterComponent()
+            ...ParticleEmitterComponent(),
+            ...ArcadeComponent()
         }
     },
     {
@@ -190,7 +205,8 @@ export const GameObjectTypes = [
             ...TransformComponent(),
             ...VisibleComponent(),
             ...BlendModeComponent(),
-            ...SpineComponent()
+            ...SpineComponent(),
+            ...ArcadeComponent()
         }
     },
     {
@@ -246,37 +262,41 @@ export function defineGameObjectTools() {
         objectIds: z.array(z.string()).describe("The `id`s of the objects to move."),
     });
 
-    const unionElements_add = GameObjectTypes.filter(t => !t.updateOnly).map((gameObjectType) => {
+    const TYPES = [...GameObjectTypes.map(go => go.type)] as any;
 
-        return z.object({
-            type: z.literal(gameObjectType.type).describe("The type of the game object to add."),
-            label: z.string().describe("Label of the object. It is used to name the object in the scene and as the variable name in code."),
-            parentId: z.string().optional().describe("The `id` of the parent to move the object to. If no parent is given, the object will be add to the root of the scene. A parent could be a container, a layer, or a script node. In case the parent is a prefab instance or nested prefab instance, then look if its `allowAppendChildren` property is enabled."),
-            ...PrefabComponent(),
-            ...VariableComponent(),
-            ...gameObjectType.schema as any
-        })
-    });
-
-    defineTool("scene-add-game-objects", "Add multiple new game objects to the scene. If you are adding prefab instances, then you should include the `unlock` property which contains an array of the name of the properties you are setting to the object. By default, are properties are locked in a prefab instance, so you need to unlock them before setting them, otherwise, the prefab instance will get the values defined originally in the prefab scene.", {
+    defineTool("scene-add-game-objects", `Add multiple new game objects to the scene. If you are adding prefab instances, then you should include the "unlock" property which contains an array of the name of the properties you are setting to the object. By default, are properties are locked in a prefab instance, so you need to unlock them before setting them, otherwise, the prefab instance will get the values defined originally in the prefab scene.`, {
         ...SceneId(),
-        objects: z.array(z.discriminatedUnion("type", unionElements_add as any)).describe("The game objects to add to the scene.")
-    });
+        objects: z.array(z.object({
+            type: z.enum(TYPES),
+            properties: z.record(z.any()).describe("The properties of the game object to add. You should provide all the required properties for creating the game object. The required properties are part of the class constructor of the game object class defined i the system prompt. You can provide a subset of the optional properties plus the required properties."),
+        }))
+    },
+        z.object({
+            ...SceneId(),
+            objects: z.array(
+                z.discriminatedUnion("type",
+                    GameObjectTypes.map(go => z.object({
+                        type: z.literal(go.type),
+                        properties: z.object(go.schema)
+                    })) as any))
+        }));
 
-    const unionElements_update = GameObjectTypes.map((gameObjectType) => {
-
-        return z.object({
-            type: z.literal(gameObjectType.type).describe("The type of the game object to update. This is used only for discriminating the type of the game object."),
-            id: z.string().describe(`The \`id\` of the game object to update.`),
-            label: z.string().optional().describe("Label of the object. It is used to name the object in the scene and as the variable name in code."),
-            ...VariableComponent(),
-            ...PrefabComponent(),
-            ...gameObjectType.schema as any
-        });
-    });
-
-    defineTool("scene-update-game-objects", "Update multiple game objects in the scene. If you are updating prefab instances, then you should include the `unlock` property which contains an array of the name of the properties you are setting to the object. By default, are properties are locked in a prefab instance, so you need to unlock them before setting them, otherwise, the prefab instance will get the values defined originally in the prefab scene. It is important that you be smart when setting the unlock property, because its value will override the unlock state of the object. This means, if you are going to update a property but want to keep the values of the other properties unlocked in the prefab instance then you have to include them in your update arguments.", {
+    defineTool("scene-update-game-objects", `Update multiple game objects in the scene. If you are updating prefab instances, then you should include the "unlock" property which contains an array of the name of the properties you are setting to the object. By default, are properties are locked in a prefab instance, so you need to unlock them before setting them, otherwise, the prefab instance will get the values defined originally in the prefab scene. It is important that you be smart when setting the unlock property, because its value will override the unlock state of the object. This means, if you are going to update a property but want to keep the values of the other properties unlocked in the prefab instance then you have to include them in your update arguments.`, {
         ...SceneId(),
-        objects: z.array(z.discriminatedUnion("type", unionElements_update as any)).describe("The game objects to add to the scene.")
-    });
+        objects: z.array(z.object({
+            id: z.string().describe("The `id` of the game object to update."),
+            type: z.enum(TYPES), // provided for validation purposes
+            properties: z.record(z.any()).describe("The properties of the game object to update. You can provide any subset of the properties, but should provide at least one property to update."),
+        })).describe("The game objects to update in the scene.")
+    },
+        z.object({
+            ...SceneId(),
+            objects: z.array(
+                z.discriminatedUnion("type",
+                    GameObjectTypes.map(go => z.object({
+                        type: z.literal(go.type),
+                        id: z.string(),
+                        properties: z.object(go.schema)
+                    })) as any))
+        }));
 }

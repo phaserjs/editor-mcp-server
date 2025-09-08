@@ -99,7 +99,7 @@ export enum BlendModes {
 export function BlendModeComponent(defaultValue = BlendModes.NORMAL) {
 
     return {
-        blendMode: z.nativeEnum(BlendModes).default(defaultValue).optional().describe("The blend mode of the game object. It defines how the game object is blended with the background. The default value is `NORMAL`."),
+        blendMode: z.number().default(defaultValue).optional().describe("The blend mode of the game object. It defines how the game object is blended with the background. The default value is `NORMAL`."),
     };
 }
 
@@ -108,42 +108,37 @@ export function TintComponent() {
     return {
         tintFill: z.boolean().default(false).optional().describe("The tint fill mode. `false` = An additive tint (the default), where vertices colors are blended with the texture.\n`true` = A fill tint, where the vertices colors replace the texture, but respects texture alpha."),
         tintTopLeft: z.string().default("#ffffff").optional().describe("The tint value being applied to the top-left vertice of the Game Object. This value is interpolated from the corner to the center of the Game Object. The value should be set as a hex number, i.e. 0xff0000 for red, or 0xff00ff for purple."),
-        tintTopRight: z.string().default("#ffffff").optional().describe("The tint value being applied to the top-right vertice of the Game Object. This value is interpolated from the corner to the center of the Game Object. The value should be set as a hex number, i.e. 0xff0000 for red, or 0xff00ff for purple."),
-        tintBottomLeft: z.string().default("#ffffff").optional().describe("The tint value being applied to the bottom-left vertice of the Game Object. This value is interpolated from the corner to the center of the Game Object. The value should be set as a hex number, i.e. 0xff0000 for red, or 0xff00ff for purple."),
-        tintBottomRight: z.string().default("#ffffff").optional().describe("The tint value being applied to the bottom-right vertice of the Game Object. This value is interpolated from the corner to the center of the Game Object. The value should be set as a hex number, i.e. 0xff0000 for red, or 0xff00ff for purple."),
+        tintTopRight: z.string().default("#ffffff").optional().describe("See tintTopLeft for more details."),
+        tintBottomLeft: z.string().default("#ffffff").optional().describe("See tintTopLeft for more details."),
+        tintBottomRight: z.string().default("#ffffff").optional().describe("See tintTopLeft for more details."),
     };
 }
 
 export function SingleTintComponent() {
+    
     return {
         tintFill: z.boolean().default(false).optional().describe("The tint fill mode. `false` = An additive tint (the default), where vertices colors are blended with the texture.\n`true` = A fill tint, where the vertices colors replace the texture, but respects texture alpha."),
         tint: z.string().default("#ffffff").optional().describe("The tint value being applied to the top-left vertice of the Game Object. This value is interpolated from the corner to the center of the Game Object. The value should be set as a hex number, i.e. 0xff0000 for red, or 0xff00ff for purple."),
     }
 }
 
-export const FrameSchema = z.union([z.string(), z.number()]).optional().describe("The frame of the texture, in case it is an atlas, sprite-sheet, or other complex texture. It is optional, if the texture is a simple image, you should omit the frame.");
+export const FrameSchema = z.any().optional().describe("Texture frame for atlases or sprite-sheets (string for atlas, number for sprite-sheet). Omit if using a simple image");
 
 export function TextureComponent() {
 
     return {
         texture: z.object({
-            key: z.union([z.string(), z.number()]).optional().describe("The key of the texture."),
+            key: z.string().optional().describe("The key of the texture."),
             frame: FrameSchema,
         }).optional().describe("The texture of the game object."),
     };
-}
-
-enum AnimationPlayMethod {
-    NONE = 0,
-    PLAY = 1,
-    PLAY_REVERSE = 2
 }
 
 export function SpriteComponent() {
 
     return {
         animationKey: z.string().optional().describe("The key of the animation to play."),
-        animationPlayMethod: z.nativeEnum(AnimationPlayMethod).optional().describe("The method to play the animation. 0 - none, 1 - play, 2 - play reverse."),
+        animationPlayMethod: z.number().optional().describe("The method to play the animation. 0 - none, 1 - play, 2 - play reverse."),
         animationPreview: z.boolean().default(false).optional().describe("If true, the animation will be previewed in realtime in the scene editor."),
     }
 }
