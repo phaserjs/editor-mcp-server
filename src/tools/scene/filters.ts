@@ -1,4 +1,7 @@
 import z from "zod";
+import { SceneId } from "./common.js";
+import { defineTool } from "../../utils.js";
+import { BlendModes, TextureComponent } from "./common.js";
 
 export function FilterComponent() {
 
@@ -249,9 +252,6 @@ export const FilterTypes = [
         }
     }
 ];
-import { SceneId } from "./common.js";
-import { defineTool } from "../../utils.js";
-import { BlendModes, TextureComponent } from "./common.js";
 
 export function defineFilterTools() {
 
