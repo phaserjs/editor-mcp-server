@@ -1,6 +1,6 @@
 import z from "zod";
 import { SceneId } from "./common.js";
-import { defineTool } from "../../utils.js";
+import { IToolsManager } from "../IToolsManager.js";
 
 enum PhysicsType {
     DYNAMIC_BODY = 0,
@@ -95,9 +95,9 @@ export function ColliderComponent() {
     };
 }
 
-export function defineArcadePhysicsTools() {
+export function defineArcadePhysicsTools(manager: IToolsManager) {
 
-    defineTool("scene-enable-arcade-physics-body", "Adds an Arcade physics body to the given game objects. To set the physics body properties you first have to create the body with this tool.", {
+    manager.defineTool("scene-enable-arcade-physics-body", "Adds an Arcade physics body to the given game objects. To set the physics body properties you first have to create the body with this tool.", {
         ...SceneId(),
         updates: z.array(
             z.object({
@@ -106,7 +106,7 @@ export function defineArcadePhysicsTools() {
             })),
     });
 
-    defineTool("scene-disable-arcade-physics-body", "Removes the Arcade physics body from the given game objects.", {
+    manager.defineTool("scene-disable-arcade-physics-body", "Removes the Arcade physics body from the given game objects.", {
         ...SceneId(),
         ids: z.array(z.string()).describe("The IDs of the game objects to remove the Arcade physics body from."),
     });

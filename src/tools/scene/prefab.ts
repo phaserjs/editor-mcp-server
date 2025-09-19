@@ -1,6 +1,6 @@
 import z from "zod";
-import { defineTool } from "../../utils.js";
 import { SceneId } from "./common.js";
+import { IToolsManager } from "../IToolsManager.js";
 
 
 const USER_PROPERTY_IDS = [
@@ -72,29 +72,29 @@ export function PrefabSceneId() {
     };
 }
 
-export function definePrefabTools() {
+export function definePrefabTools(manager: IToolsManager) {
 
-    defineTool("ide-create-new-prefab-scene", "Create a new special scene that is a prefab. A prefab is a scene with a single game object (the prefab object) and its children. You can create a prefab instance and add it to a scene or another prefab. That's the idea of prefabs, create reusable objects. It is very common to create a prefab for every entity of the game, like the player, the different enemies, non-player characters, platforms, collectibles and many more. A prefab scene is compiled as a subclass of a game object, not as a Phaser.Scene. You can think about a prefab as a custom game object class. Even, you can create a prefab that is variant of another prefab. This means, a prefab that inherits another prefab. To create a prefab variant, just use another prefab instance as root of the prefab scene, as prefab object. This tool only creates an empty prefab scene, you must add the prefab object to the scene, immediately. The goal of a prefab is to instantiate and add it to other scenes.", {
+    manager.defineTool("ide-create-new-prefab-scene", "Create a new special scene that is a prefab. A prefab is a scene with a single game object (the prefab object) and its children. You can create a prefab instance and add it to a scene or another prefab. That's the idea of prefabs, create reusable objects. It is very common to create a prefab for every entity of the game, like the player, the different enemies, non-player characters, platforms, collectibles and many more. A prefab scene is compiled as a subclass of a game object, not as a Phaser.Scene. You can think about a prefab as a custom game object class. Even, you can create a prefab that is variant of another prefab. This means, a prefab that inherits another prefab. To create a prefab variant, just use another prefab instance as root of the prefab scene, as prefab object. This tool only creates an empty prefab scene, you must add the prefab object to the scene, immediately. The goal of a prefab is to instantiate and add it to other scenes.", {
         name: z.string().describe("The name of the prefab scene file. It is not a full name, just the name. The extension will be added automatically."),
     });
 
-    defineTool("ide-get-all-prefabs-in-project", "Get all prefabs in the project.", {});
+    manager.defineTool("ide-get-all-prefabs-in-project", "Get all prefabs in the project.", {});
 
-    defineTool("ide-get-prefab-inheritance", "Get an array of all the prefabs that are part of the inheritance of the given prefab. A prefab can inherit another prefab. We call it a prefab variant. If the result is an empty array it means the given prefab is not a variant any other prefab.", {
+    manager.defineTool("ide-get-prefab-inheritance", "Get an array of all the prefabs that are part of the inheritance of the given prefab. A prefab can inherit another prefab. We call it a prefab variant. If the result is an empty array it means the given prefab is not a variant any other prefab.", {
         prefabId: z.string().describe("The ID of the prefab scene to get the inheritance from. The `prefabId` is the same of the id of referring prefab scene."),
     });
 
-    defineTool("scene-declare-prefab-property", "Create a new user property for the given prefab.", {
+    manager.defineTool("scene-declare-prefab-property", "Create a new user property for the given prefab.", {
         ...PrefabSceneId(),
         ...UserPropertyDefinitionComponent(),
     });
 
-    defineTool("scene-delete-prefab-property", "Delete a user property from the given prefab.", {
+    manager.defineTool("scene-delete-prefab-property", "Delete a user property from the given prefab.", {
         ...PrefabSceneId(),
         name: z.string().describe("The name of the user property to delete."),
     });
 
-    defineTool("scene-get-nested-prefabs-instances", "Get all the nested prefab instances of the given prefab instance. A prefab instance can have other prefab instances as children that are exposed as nested prefab instances. This tool returns all the nested prefab instances, not the direct children. You can use this tool to get the info of the nested prefab instances and perform operations like updating the nested prefabs or, in case they are containers-like objects, add objects to them. You cannot delete a nested prefab instance. A nested prefab instance also have a `prefabId` that points to an object inside the root prefab. You can modify a nested prefab instance just like any other prefab instance, you have to provide the id, the values of the properties, and update the `unlock` field. Each nested prefab instance contains its own data.", {
+    manager.defineTool("scene-get-nested-prefabs-instances", "Get all the nested prefab instances of the given prefab instance. A prefab instance can have other prefab instances as children that are exposed as nested prefab instances. This tool returns all the nested prefab instances, not the direct children. You can use this tool to get the info of the nested prefab instances and perform operations like updating the nested prefabs or, in case they are containers-like objects, add objects to them. You cannot delete a nested prefab instance. A nested prefab instance also have a `prefabId` that points to an object inside the root prefab. You can modify a nested prefab instance just like any other prefab instance, you have to provide the id, the values of the properties, and update the `unlock` field. Each nested prefab instance contains its own data.", {
         ...SceneId(),
         id: z.string().describe("The `id` of the prefab instance game object in the scene."),
     });

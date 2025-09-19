@@ -7,6 +7,18 @@ export function SceneId() {
     };
 }
 
+export function LabelComponent(required: "required" | "optional") {
+
+    let label = z.string().regex(/^[A-Za-z_$][A-Za-z0-9_$]*$/, { message: "Invalid label format. Expects a valid variable identifier." }).describe("Label of the object. It is used to name the object in the scene and as the variable name in code.");
+
+    if (required === "optional") {
+
+        label = label.optional() as any;
+    }
+
+    return { label };
+}
+
 export function VariableComponent() {
 
     return {
@@ -115,7 +127,7 @@ export function TintComponent() {
 }
 
 export function SingleTintComponent() {
-    
+
     return {
         tintFill: z.boolean().default(false).optional().describe("The tint fill mode. `false` = An additive tint (the default), where vertices colors are blended with the texture.\n`true` = A fill tint, where the vertices colors replace the texture, but respects texture alpha."),
         tint: z.string().default("#ffffff").optional().describe("The tint value being applied to the top-left vertice of the Game Object. This value is interpolated from the corner to the center of the Game Object. The value should be set as a hex number, i.e. 0xff0000 for red, or 0xff00ff for purple."),

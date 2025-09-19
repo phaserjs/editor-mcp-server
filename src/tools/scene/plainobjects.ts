@@ -1,33 +1,35 @@
 import z from "zod";
-import { defineTool } from "../../utils.js";
-import { SceneId } from "./common.js";
+import { LabelComponent, SceneId, VariableComponent } from "./common.js";
 import { TilemapComponent } from "./tilemap.js";
 import { ColliderComponent } from "./arcade.js";
+import { IToolsManager } from "../IToolsManager.js";
 
 export const PlainObjectTypes = [
     {
         type: "Tilemap",
         schema: {
+            ...VariableComponent(),
             ...TilemapComponent()
         }
     }, {
         type: "Collider",
         schema: {
+            ...VariableComponent(),
             ...ColliderComponent()
         }
     }
 ];
 
-export function definePlainObjectTools() {
+export function definePlainObjectTools(manager: IToolsManager) {
 
-    defineTool("scene-delete-plain-objects", "Delete the given plain objects from the scene. Plain objects are Tilemap, Key, Collider...", {
+    manager.defineTool("scene-delete-plain-objects", "Delete the given plain objects from the scene. Plain objects are Tilemap, Key, Collider...", {
         ...SceneId(),
         objectIds: z.array(z.string()).describe("The `id`s of the plain objects to delete.")
     });
 
     const TYPES = PlainObjectTypes.map(po => po.type) as any;
 
-    defineTool(`scene-add-plain-objects`, `Add multiple new plain objects to the scene.`, {
+    manager.defineTool(`scene-add-plain-objects`, `Add multiple new plain objects to the scene.`, {
         ...SceneId(),
         objects: z.array(z.object({
             type: z.enum(TYPES),
@@ -40,11 +42,14 @@ export function definePlainObjectTools() {
                 z.discriminatedUnion("type",
                     PlainObjectTypes.map(po => z.object({
                         type: z.literal(po.type),
-                        properties: z.object(po.schema)
+                        properties: z.object({
+                            ...LabelComponent("required"),
+                            ...po.schema
+                        })
                     })) as any))
         }));
 
-    defineTool(`scene-update-plain-objects`, `Update multiple plain objects in the scene.`, {
+    manager.defineTool(`scene-update-plain-objects`, `Update multiple plain objects in the scene.`, {
         ...SceneId(),
         objects: z.array(z.object({
             type: z.enum(TYPES), // for validation only
@@ -59,7 +64,11 @@ export function definePlainObjectTools() {
                     PlainObjectTypes.map(go => z.object({
                         type: z.literal(go.type),
                         id: z.string(),
-                        properties: z.object(go.schema)
+                        properties: z.object(
+                            {
+                                ...LabelComponent("optional"),
+                                ...go.schema
+                            })
                     })) as any))
         }));
 }

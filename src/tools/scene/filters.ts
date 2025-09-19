@@ -1,7 +1,7 @@
 import z from "zod";
 import { SceneId } from "./common.js";
-import { defineTool } from "../../utils.js";
 import { BlendModes, TextureComponent } from "./common.js";
+import { IToolsManager } from "../IToolsManager.js";
 
 export function FilterComponent() {
 
@@ -253,11 +253,11 @@ export const FilterTypes = [
     }
 ];
 
-export function defineFilterTools() {
+export function defineFilterTools(manager: IToolsManager) {
 
     const TYPES = FilterTypes.map(f => f.type) as any;
 
-    defineTool("scene-add-game-object-filters", "Add multiple filters to parent game objects in the scene", {
+    manager.defineTool("scene-add-game-object-filters", "Add multiple filters to parent game objects in the scene", {
         ...SceneId(),
         objects: z.array(z.object({
             type: z.enum(TYPES),
@@ -276,7 +276,7 @@ export function defineFilterTools() {
                     })) as any))
         }));
 
-    defineTool("scene-update-game-object-filters", "Add multiple filters to parent game objects in the scene", {
+    manager.defineTool("scene-update-game-object-filters", "Add multiple filters to parent game objects in the scene", {
         ...SceneId(),
         objects: z.array(z.object({
             id: z.string().describe(`The \`id\` of the filter to update.`),
@@ -297,12 +297,12 @@ export function defineFilterTools() {
                     })) as any))
         }));
 
-    defineTool("scene-delete-game-object-filters", "Delete the given filters from the scene.", {
+    manager.defineTool("scene-delete-game-object-filters", "Delete the given filters from the scene.", {
         ...SceneId(),
         filterIds: z.array(z.string()).describe("The `id`s of the filters to delete.")
     });
 
-    defineTool("scene-update-game-object-filter-list", "Update the list where the filter is placed. A filter could be on the internal or external filter list. The internal filters are rendered in the game object space. The external filters are rendered in the camera space.", {
+    manager.defineTool("scene-update-game-object-filter-list", "Update the list where the filter is placed. A filter could be on the internal or external filter list. The internal filters are rendered in the game object space. The external filters are rendered in the camera space.", {
         ...SceneId(),
         filterId: z.string().describe("The `id` of the filter to update."),
         internal: z.boolean().describe("If `true`, the filter is added to the internal filter list of the game object. If `false`, the filter is added to the scene's filter list.")

@@ -1,12 +1,12 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import z, { ZodRawShape } from "zod";
+import z from "zod";
 import { sendRequestToPhaserEditor } from "./bridge.js";
 import packageJson from "../package.json" with { type: "json" };
-import { SceneId } from "./tools/scene/common.js";
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import { readFileSync } from "fs";
+import { IToolsManager } from "./tools/IToolsManager.js";
 
 const title = `Phaser Editor MCP Server v${packageJson.version}`;
 
@@ -25,13 +25,16 @@ mcpServer.tool("get-system-instructions", "Get the system instructions. This is 
 
     const __filename = fileURLToPath(import.meta.url);
 
-    const file = join(dirname(__filename), "system-prompt.md");
 
-    const text = readFileSync(file, "utf-8");
+    const text1 = readFileSync(
+        join(dirname(__filename), "tools/prompts/system.md"), "utf-8");
+
+    const text2 = readFileSync(
+        join(dirname(__filename), "tools/prompts/tools.md"), "utf-8");
 
     return {
         content: [
-            { type: "text", text }
+            { type: "text", text: `${text1}\n${text2}` }
         ],
     }
 });
@@ -45,49 +48,41 @@ export async function startServer() {
     console.error(`${title} running on stdio`);
 }
 
-export function defineTool(name: string, description: string, args: ZodRawShape, validator?: z.Schema) {
+export class ToolsManager implements IToolsManager {
 
-    return mcpServer.tool(name, description, args, async input => {
+    defineTool(name: string, description: string, args: z.ZodRawShape, validator?: z.Schema): void {
 
-        let response: any;
+        mcpServer.tool(name, description, args, async input => {
 
-        if (validator) {
+            let response: any;
 
-            const { error } = validator.safeParse(input);
+            if (validator) {
 
-            if (error) {
+                const { error } = validator.safeParse(input);
 
-                const issues = error.issues.map((issue) => `- [path=${issue.path}] [${issue.code}]: ${issue.message}`).join("\n");
+                if (error) {
 
-                response = [{
-                    type: "text",
-                    content: `Tool '${name}' validation error:\n${issues}\nPlease fix the input and try again.`,
-                }];
+                    const issues = error.issues.map((issue) => `- [path=${issue.path}] [${issue.code}]: ${issue.message}`).join("\n");
+
+                    response = [{
+                        type: "text",
+                        text: `Tool '${name}' validation error:\n${issues}\nPlease fix the input and try again.`
+                    }];
+                }
             }
-        }
 
-        if (!response) {
+            if (!response) {
 
-            response = await sendRequestToPhaserEditor({
-                tool: name,
-                args: input
-            });
-        }
+                response = await sendRequestToPhaserEditor({
+                    tool: name,
+                    args: input
+                });
+            }
 
-        return {
-            content: response
-        };
-    });
-}
+            return {
+                content: response
+            };
+        });
+    }
 
-export function defineUpdatePropertiesTool(componentName: string, componentDisplayName: string, props: any) {
-
-    defineTool(`scene-update-game-object-${componentName}`,
-        `Update the ${componentDisplayName} properties of the given game objects.`, {
-        ...SceneId(),
-        updates: z.array(z.object({
-            objectId: z.string().describe("The ID of the game object to update properties for."),
-            props: z.object(props).describe(`The properties to set on the ${componentDisplayName}.`),
-        }))
-    });
 }

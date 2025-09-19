@@ -1,3 +1,5 @@
+## Scenes and Game Objects
+
 The Phaser Editor scenes are JSON files that define the structure and properties of game objects within a scene. Each scene contains an array of game objects, each with its own unique "id", "type", and various properties such as position, scale, rotation, and custom properties.
 
 I will describe to you the different type of game objects that can be present in a scene, along with their properties and how they can be manipulated. You will use this information to fill the parameters of the functions like "scene-add-game-objects", "scene-update-game-objects", and others. I will use a TypeScript-like syntax to describe the types and properties of the game objects. Each game object type extends properties from component-like classes and also includes its own specific properties. The "constructor" syntax indicates the required properties for creating an instance of that game object type. These required properties are inherited, so you have to look into the constructor of all the super classes. To update an existing game object, you can provide any subset of its properties. The property names are regular TypeScript identifiers, but it also allows name.with.dots syntax. It doesn't indicate a nested object, but a property with a name that includes dots.
@@ -10,9 +12,10 @@ Here are the game object types and their properties:
 // component and config classes
 
 class VariableComponent {
+    constructor(label)
     // The scope of the variable. By default, the editor may generate or not a variable ('local' scope). It depends on if it needs a variable to update the object just after the creation. However, you can force to generate a variable and assign a scope to it, so you can access the object from different parts of the code. When you set a 'public' scope, the editor generates a public field in the class. The same with the `class` scope, but the field is private (in TypeScript). The 'method' scope says to the editor to generate a local variable. The 'nested_prefab' scope is like the public scope but also indicates that the object is a nested prefab.
     scope: "LOCAL" | "PUBLIC" | "METHOD" | "CLASS" | "NESTED_PREFAB" = "LOCAL"
-    // Label of the object. It is used to name the object in the scene and as the variable name in code.
+    // Label of the object. It is used to name the object in the scene and as the variable name in code. Use a valid JavaScript identifier. Different game objects should have different labels, just like variable names in the same block of code.
     label: string
 }
 
@@ -284,11 +287,11 @@ class Image extends GameObject,
     BlendModeComponent,
     TintComponent,
     TextureComponent {
-   constructor(x, y, texture)
+    constructor(label, x, y, texture)
 }
 
 class Sprite extends Image {
-    constructor(x, y, texture)
+    constructor(label, x, y, texture)
     // The key of the animation to play.
     animationKey: string
     // The method to play the animation. 0 - none, 1 - play, 2 - play reverse.
@@ -298,7 +301,7 @@ class Sprite extends Image {
 }
 
 class TileSprite extends Image, SizeComponent {
-    constructor(x, y, width, height, texture)
+    constructor(label, x, y, width, height, texture)
     tilePositionX: number = 0
     tilePositionY: number = 0
     tileScaleX: number = 1
@@ -317,7 +320,7 @@ class NineSlice extends
     TextureComponent,
     SizeComponent {
 
-    constructor(x, y, width, height, texture)
+    constructor(label, x, y, width, height, texture)
     leftWidth: number = 0
     rightWidth: number = 0
     topHeight: number = 0
@@ -336,11 +339,12 @@ class ThreeSlice extends
     TextureComponent,
     SizeComponent{
 
-    constructor(x, y, width, height, texture)
+    constructor(label, x, y, width, height, texture)
     leftWidth: number = 0
     rightWidth: number = 0
 }
 
+// When adding a Text object, the `originX` and `originY` properties are set to 0 by default, so the origin is at the top-left corner. You can change these values to set a different origin.
 class Text extends
     GameObject,
     TransformComponent,
@@ -351,7 +355,10 @@ class Text extends
     BlendModeComponent,
     TintComponent {
 
-    constructor(x, y, text)
+    constructor(label, x, y, text)
+    // The Text object has the origin at the top-left corner by default. Take this in consideration when you position the text.
+    originX: number = 0
+    originY: number = 0
     text: string
     fontFamily: string
     fontSize: string
@@ -377,6 +384,7 @@ class Layer extends
     BlendModeComponent,
     VisibleComponent,
     AlphaSingleComponent {
+    constructor(label)
     // the default blendMode for the Layer is SKIP_CHECK
     blendMode: BlendModes = BlendModes.SKIP_CHECK
 }
@@ -388,6 +396,7 @@ class Container extends
     VisibleComponent,
     AlphaSingleComponent,
     BlendModeComponent {
+    constructor(label)
     // the default blendMode for the Container is SKIP_CHECK
     blendMode: BlendModes = BlendModes.SKIP_CHECK
 }
@@ -400,7 +409,7 @@ class BitmapText extends GameObject,
     BlendModeComponent,
     TintComponent {
 
-    constructor(x, y, font, fontSize, text)
+    constructor(label, x, y, font, fontSize, text)
     text: string
     // Bitmap Font asset key.
     font: string
@@ -423,6 +432,7 @@ abstract class Shape extends
     VisibleComponent,
     AlphaSingleComponent,
     BlendModeComponent {
+    constructor(label)
 
     // in hex format, e.g., "#ff0000" for red
     fillColor: string
@@ -436,13 +446,16 @@ abstract class Shape extends
 }
 
 class Rectangle extends Shape, SizeComponent {
+    constructor(label)
 }
 
 class Ellipse extends Shape, SizeComponent {
+    constructor(label)
     smoothness: number = 64
 }
 
 class Triangle extends Shape {
+    constructor(label)
     x1: number = 0
     y1: number = 128
     x2: number = 64
@@ -452,6 +465,7 @@ class Triangle extends Shape {
 }
 
 class Polygon extends Shape {
+    constructor(label)
     // The points of the polygon. Use a string with the format `x1 y1 x2 y2 x3 y3 ...`
     points: string
 }
@@ -461,7 +475,7 @@ class SpineGameObject extends GameObject,
     VisibleComponent,
     BlendModeComponent {
 
-    constructor(x, y, dataKey, atlasKey, skinName, bpType, bpSkin, bpAnimation)
+    constructor(label, x, y, dataKey, atlasKey, skinName, bpType, bpSkin, bpAnimation)
     // The key of the spine data (skeleton) asset
     dataKey: string
     // The key of the spine atlas asset.
@@ -488,7 +502,7 @@ class TilemapLayer extends
     TransformComponent,
     VisibleComponent {
 
-    constructor(tilemapId, layerName, tilesets)
+    constructor(label, tilemapId, layerName, tilesets)
 
     // The `id` of the Tiled tilemap this layer belongs to. There are two type of tilemaps: Tiled tilemaps and EditableTilemaps. This is the `id` of the Tiled tilemap.
     tilemapId: string
@@ -503,6 +517,7 @@ class EditableTilemapLayer extends
     TransformComponent,
     VisibleComponent,
     BlendModeComponent {
+    constructor(label)
 }
 
 // EmitterOp classes for particle emitters
@@ -716,6 +731,7 @@ abstract class Filter extends
 }
 
 class Glow extends Filter {
+    constructor(label)
     // The color of the glow effect. This value should be set as a hex number, i.e. 0xff0000 for red, or 0xff00ff for purple.
     color: string = "#ffffff"
     // The strength of the glow inward from the edge of the Sprite.
@@ -733,6 +749,7 @@ class Glow extends Filter {
 }
 
 class Shadow extends Filter {
+    constructor(label)
     // The horizontal offset of the shadow effect.
     x: number = 0
     // The vertical offset of the shadow effect.
@@ -750,11 +767,13 @@ class Shadow extends Filter {
 }
 
 class Pixelate extends Filter {
+    constructor(label)
     // The amount of pixelation to apply. The size of the pixels is equal to 2 + the amount.
     amount: number = 1
 }
 
 class Blur extends Filter {
+    constructor(label)
     // The horizontal offset of the blur effect.
     x: number = 2
     // The vertical offset of the blur effect.
@@ -768,11 +787,13 @@ class Blur extends Filter {
 }
 
 class Barrel extends Filter {
+    constructor(label)
     // The amount of distortion applied to the barrel effect. Typically keep this within the range 1 (no distortion) to +- 1.
     amount: number = 1
 }
 
 class Displacement extends Filter {
+    constructor(label)
     // The amount of horizontal displacement to apply. The maximum horizontal displacement in pixels is `x` multiplied by 0.5 times the width of the camera rendering the filter.
     x: number = 0.005
     // The amount of vertical displacement to apply. The maximum vertical displacement in pixels is `y` multiplied by 0.5 times the height of the camera rendering the filter.
@@ -782,6 +803,7 @@ class Displacement extends Filter {
 }
 
 class Bokeh extends Filter {
+    constructor(label)
     // The radius of the bokeh effect. This is a float value, where a radius of 0 will result in no effect being applied, and a radius of 1 will result in a strong bokeh. However, you can exceed this value for even stronger effects.
     radius: number = 0.5
     // The amount, or strength, of the bokeh effect.
@@ -799,6 +821,7 @@ class Bokeh extends Filter {
 }
 
 class Blend extends Filter {
+    constructor(label)
     // The blend mode of the game object. It defines how the game object is blended with the background. The default value is `NORMAL`.
     blendMode: BlendModes = BlendModes.NORMAL
     // The amount of the blend effect to apply to the view. At 0, the original image is preserved. At 1, the blend texture is fully applied.
@@ -810,6 +833,7 @@ class Blend extends Filter {
 }
 
 class ObjectMask extends Filter {
+    constructor(label)
     // Whether to invert the mask. An inverted mask switches what it hides and what it shows.
     invert: boolean = false
     // The `id` of the game object to use as a mask for the filter.
@@ -817,6 +841,7 @@ class ObjectMask extends Filter {
 }
 
 class TextureMask extends Filter {
+    constructor(label)
     // Whether to invert the mask. An inverted mask switches what it hides and what it shows.
     invert: boolean = false
     // The texture to be used for the mask effect.
@@ -824,6 +849,7 @@ class TextureMask extends Filter {
 }
 
 class Threshold extends Filter {
+    constructor(label)
     // The first edge of the threshold. This contains the lowest value for each channel.
     edge1: number[] = [0.5, 0.5, 0.5, 0.5]
     // The second edge of the threshold. This contains the highest value for each channel. If it is the same as the first edge, the threshold is a single value.
@@ -833,6 +859,7 @@ class Threshold extends Filter {
 }
 
 class ColorMatrix extends Filter {
+    constructor(label)
     // The type of operation to perform.
     operationType: ColorMatrixOperationType = ColorMatrixOperationType.NOP
     // The value that determines how much of the original color is used when mixing the colors. A value between 0 (all original) and 1 (all final). Used when the `operationType` is not `NOP`.
@@ -861,6 +888,7 @@ class PlainObject extends VariableComponent {
 }
 
 class Collider extends PlainObject {
+    constructor(label)
 
     // A valid javascript expression that returns the objects that are part of the collider. A collider tests `object1` against `object2`. It is very common that the expression points to the variable of a game object, like in `player`, a Layer's list (`myLayer.list`), a Container list (`myContainer.list`), or a game object list that groups other objects in the scene. Colliders are created at the end of the scene so you can reference the variable names of the game objects. If you use the expression `this.myObject`, then should declare `myObject` with a scope such as CLASS, PUBLIC, or NESTED_PREFAB. When you will set the object in a collider, you should ask your self: do the objects have the right scope?
     object1: string
@@ -884,7 +912,7 @@ class TilesetConfig {
 }
 
 class Tilemap extends PlainObject {
-    constructor(key, tilesets)
+    constructor(label, key, tilesets)
     // The key of the tilemap.
     key: string
     // The tilesets used by the tilemap.

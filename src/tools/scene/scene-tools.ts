@@ -1,5 +1,4 @@
 import z from "zod";
-import { defineTool } from "../../utils.js";
 import { SceneId } from "./common.js";
 import { defineFilterTools } from "./filters.js";
 import { defineArcadePhysicsTools } from "./arcade.js";
@@ -9,20 +8,21 @@ import { defineEditableTilemapTools } from "./editable-tilemap-tools.js";
 import { defineObjectListTools } from "./objectlist.js";
 import { defineSceneIDETools } from "./scene-ide-tools.js";
 import { definePrefabTools } from "./prefab.js";
+import { IToolsManager } from "../IToolsManager.js";
 
-export function defineSceneTools() {
+export function defineSceneTools(manager: IToolsManager) {
 
-    defineSceneIDETools();
+    defineSceneIDETools(manager);
 
-    defineTool("scene-clear-scene", "Clear the current scene.", {
+    manager.defineTool("scene-clear-scene", "Clear the current scene.", {
         ...SceneId()
     });
 
-    defineTool("scene-get-scene-dimension", "Get the dimensions of the current scene.", {
+    manager.defineTool("scene-get-scene-dimension", "Get the dimensions of the current scene.", {
         ...SceneId()
     });
 
-    defineTool("scene-get-screenshot", "Get a screenshot of the scene.", {
+    manager.defineTool("scene-get-screenshot", "Get a screenshot of the scene.", {
         ...SceneId(),
         x: z.number().describe("The x coordinate of the top left corner of the screenshot."),
         y: z.number().describe("The y coordinate of the top left corner of the screenshot."),
@@ -30,21 +30,26 @@ export function defineSceneTools() {
         height: z.number().describe("The height of the screenshot."),
     });
 
-    defineTool("scene-get-scene-data", "Get all objects in the current scene, including their properties.", {
+    manager.defineTool("scene-get-scene-data", "Get all objects in the current scene, including their properties.", {
         ...SceneId()
     });
 
-    definePrefabTools();
+    manager.defineTool("scene-get-objects-data", "Get the data of the given objects", {
+        ...SceneId(),
+        objectIds: z.array(z.string()).describe("The ids of the objects to get the data from.")
+    });
 
-    defineEditableTilemapTools();
+    definePrefabTools(manager);
 
-    defineFilterTools();
+    defineEditableTilemapTools(manager);
 
-    defineArcadePhysicsTools();
+    defineFilterTools(manager);
 
-    defineObjectListTools();
+    defineArcadePhysicsTools(manager);
 
-    defineGameObjectTools();
+    defineObjectListTools(manager);
 
-    definePlainObjectTools();
+    defineGameObjectTools(manager);
+
+    definePlainObjectTools(manager);
 }

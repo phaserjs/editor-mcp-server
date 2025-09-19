@@ -1,15 +1,14 @@
 #!/usr/bin/env node
 
-import { defineAssetTools } from "./tools/assets-tools.js";
+import { defineAssetTools } from "./tools/assets/assets-tools.js";
 import { defineSceneTools } from "./tools/scene/scene-tools.js";
-import { startServer } from "./utils.js";
+import { startServer, ToolsManager } from "./utils.js";
 
-defineSceneTools();
+const manager = new ToolsManager();
 
-defineAssetTools();
+defineSceneTools(manager);
 
-// TODO: not for now
-// defineAnimationsTools();
+defineAssetTools(manager);
 
 startServer().catch((error) => {
 
